@@ -701,11 +701,20 @@
       transform: translateY(0);
     }
 
+    body.is-dev .btn-edit-home-cover {
+      opacity: 0.95;
+      transform: translateY(0);
+      background: rgba(10, 13, 20, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      color: #38bdf8;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+    }
+
     .btn-edit-home-cover:hover {
-      background: var(--accent-blue);
-      color: #000;
-      border-color: var(--accent-blue);
-      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+      background: var(--accent-blue) !important;
+      color: #000 !important;
+      border-color: var(--accent-blue) !important;
+      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.5) !important;
     }
 
     .track-footer {
@@ -1813,6 +1822,68 @@
       </div>
     </div>
 
+    <!-- ============================================================== -->
+    <!-- VIEW 4: PAINEL / ABA DE DESENVOLVEDOR (DEV)                    -->
+    <!-- ============================================================== -->
+    <div class="view-container" id="viewDevPanel">
+      <div class="dev-panel-container">
+        
+        <!-- HEADER DO PAINEL DEV -->
+        <div class="dev-header-banner apple-glass">
+          <div class="dev-header-content">
+            <div class="dev-header-title-box">
+              <h1>
+                <span>🛠️</span> Painel Visual DEV
+                <span class="dev-badge-indicator">Acesso Máster</span>
+              </h1>
+              <p>
+                Gerenciamento visual completo do Studio Insight - Hub-Pack's. Altere as capas da página de login, cards da home, cursos, módulos e logo da barra superior com prévia em tempo real.
+              </p>
+            </div>
+            
+            <div class="dev-header-actions">
+              <button type="button" class="btn-tool" onclick="previewLoginScreenFromDev()" title="Visualizar Tela de Login com a capa atual">
+                👁️ Prévia do Login
+              </button>
+              <button type="button" class="btn-tool" onclick="exportDataJson()" title="Baixar backup dos dados e capas em JSON">
+                💾 Exportar Backup (JSON)
+              </button>
+              <button type="button" class="btn-tool btn-primary" onclick="triggerImportJson()" title="Importar arquivo de backup">
+                📥 Importar Backup
+              </button>
+              <input type="file" id="importJsonFileInput" accept="application/json" style="display:none;" onchange="handleImportJson(event)">
+            </div>
+          </div>
+        </div>
+
+        <!-- FILTROS DE CATEGORIA DE IMAGENS -->
+        <div class="dev-filter-tabs-strip">
+          <button type="button" class="dev-filter-pill active" id="filterBtnAll" onclick="filterDevImages('all', this)">
+            ✨ Todas as Imagens (<span id="devCountAll">0</span>)
+          </button>
+          <button type="button" class="dev-filter-pill" id="filterBtnLogin" onclick="filterDevImages('login', this)">
+            🔐 Tela de Login (<span id="devCountLogin">1</span>)
+          </button>
+          <button type="button" class="dev-filter-pill" id="filterBtnHome" onclick="filterDevImages('home', this)">
+            🏠 Cards da Home (<span id="devCountHome">0</span>)
+          </button>
+          <button type="button" class="dev-filter-pill" id="filterBtnCourse" onclick="filterDevImages('course', this)">
+            📖 Cursos (<span id="devCountCourses">0</span>)
+          </button>
+          <button type="button" class="dev-filter-pill" id="filterBtnModule" onclick="filterDevImages('module', this)">
+            📁 Módulos (<span id="devCountModules">0</span>)
+          </button>
+          <button type="button" class="dev-filter-pill" id="filterBtnTopbar" onclick="filterDevImages('topbar', this)">
+            ✨ Logo Topbar (<span id="devCountTopbar">1</span>)
+          </button>
+        </div>
+
+        <!-- GRADE COM TODOS OS CARDS DE IMAGENS -->
+        <div class="dev-images-grid" id="devImagesGrid"></div>
+
+      </div>
+    </div>
+
   </div>
 
   <!-- MODAL TRANSLÚCIDO DE PERSONALIZAÇÃO -->
@@ -1870,68 +1941,6 @@
           <button class="btn-tool" onclick="closeEditModal()">Cancelar</button>
           <button class="btn-tool btn-primary" onclick="saveModalChanges()">Salvar Alterações</button>
         </div>
-      </div>
-    </div>
-
-    <!-- ============================================================== -->
-    <!-- VIEW 4: PAINEL / ABA DE DESENVOLVEDOR (DEV)                    -->
-    <!-- ============================================================== -->
-    <div class="view-container" id="viewDevPanel">
-      <div class="dev-panel-container">
-        
-        <!-- HEADER DO PAINEL DEV -->
-        <div class="dev-header-banner apple-glass">
-          <div class="dev-header-content">
-            <div class="dev-header-title-box">
-              <h1>
-                <span>🛠️</span> Painel Visual DEV
-                <span class="dev-badge-indicator">Acesso Máster</span>
-              </h1>
-              <p>
-                Gerenciamento visual completo do Studio Insight - Hub-Pack's. Altere as capas da página de login, cards da home, cursos, módulos e logo da barra superior com prévia em tempo real.
-              </p>
-            </div>
-            
-            <div class="dev-header-actions">
-              <button class="btn-tool" onclick="previewLoginScreenFromDev()" title="Visualizar Tela de Login com a capa atual">
-                👁️ Prévia do Login
-              </button>
-              <button class="btn-tool" onclick="exportDataJson()" title="Baixar backup dos dados e capas em JSON">
-                💾 Exportar Backup (JSON)
-              </button>
-              <button class="btn-tool btn-primary" onclick="triggerImportJson()" title="Importar arquivo de backup">
-                📥 Importar Backup
-              </button>
-              <input type="file" id="importJsonFileInput" accept="application/json" style="display:none;" onchange="handleImportJson(event)">
-            </div>
-          </div>
-        </div>
-
-        <!-- FILTROS DE CATEGORIA DE IMAGENS -->
-        <div class="dev-filter-tabs-strip">
-          <button class="dev-filter-pill active" id="filterBtnAll" onclick="filterDevImages('all', this)">
-            ✨ Todas as Imagens (<span id="devCountAll">0</span>)
-          </button>
-          <button class="dev-filter-pill" id="filterBtnLogin" onclick="filterDevImages('login', this)">
-            🔐 Tela de Login (<span id="devCountLogin">1</span>)
-          </button>
-          <button class="dev-filter-pill" id="filterBtnHome" onclick="filterDevImages('home', this)">
-            🏠 Cards da Home (<span id="devCountHome">0</span>)
-          </button>
-          <button class="dev-filter-pill" id="filterBtnCourse" onclick="filterDevImages('course', this)">
-            📖 Cursos (<span id="devCountCourses">0</span>)
-          </button>
-          <button class="dev-filter-pill" id="filterBtnModule" onclick="filterDevImages('module', this)">
-            📁 Módulos (<span id="devCountModules">0</span>)
-          </button>
-          <button class="dev-filter-pill" id="filterBtnTopbar" onclick="filterDevImages('topbar', this)">
-            ✨ Logo Topbar (<span id="devCountTopbar">1</span>)
-          </button>
-        </div>
-
-        <!-- GRADE COM TODOS OS CARDS DE IMAGENS -->
-        <div class="dev-images-grid" id="devImagesGrid"></div>
-
       </div>
     </div>
   </div>
