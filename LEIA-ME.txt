@@ -1,0 +1,20 @@
+=======================================================
+ACADEMY PASS - DASHBOARD LOCAL & OFFLINE
+=======================================================
+
+Local de instalacao: F:\HUM COP\
+
+COMO USAR:
+1. Abra o arquivo "index.html" dando dois cliques nele (ele abre no Chrome ou em qualquer navegador).
+2. O dashboard funciona 100% OFFLINE, sem internet e sem precisar de login ou senha.
+3. Para assistir aos videos:
+   - Baixe as aulas que desejar pelo Google Chrome usando a extensao FetchV.
+   - No Dashboard, clique em "Abrir Video Baixado (.mp4)" e selecione o arquivo que voce baixou.
+   - O player toca na hora, com controle de velocidade (1x, 1.25x, 1.5x, 2x).
+4. Suas anotacoes e progresso de aulas concluidas ficam salvos automaticamente no computador.
+
+DICA DE ORGANIZACAO:
+Voce pode criar uma pasta aqui dentro chamada "videos":
+F:\HUM COP\videos\
+e ir guardando todos os seus arquivos .mp4 salvos nela!
+=======================================================

@@ -1,0 +1,2781 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academy Pass - Human Academy</title>
+  <style>
+    :root {
+      --bg-dark: #08090d;
+      --glass-base: rgba(18, 22, 34, 0.65);
+      --glass-card: rgba(24, 29, 45, 0.55);
+      --glass-card-hover: rgba(32, 39, 60, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-border-focus: rgba(56, 189, 248, 0.45);
+      --glass-specular: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+      --accent-blue: #38bdf8;
+      --accent-indigo: #6366f1;
+      --google-blue: #8ab4f8;
+      --text-primary: #ffffff;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --radius-xl: 20px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.1) 0%, transparent 45%),
+        radial-gradient(circle at 85% 25%, rgba(99, 102, 241, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ESTILO TRANSLÚCIDO APPLE */
+    .apple-glass {
+      background: var(--glass-base);
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.45), var(--glass-specular);
+    }
+
+    .apple-glass-card {
+      background: var(--glass-card);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 8px 28px 0 rgba(0, 0, 0, 0.35), var(--glass-specular);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .apple-glass-card:hover {
+      background: var(--glass-card-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    /* ============================================================== */
+    /* TELA DE LOGIN PRINCIPAL                                        */
+    /* ============================================================== */
+    #loginScreenOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 12, 0.82);
+      backdrop-filter: blur(35px) saturate(190%);
+      -webkit-backdrop-filter: blur(35px) saturate(190%);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card-container {
+      width: 100%;
+      max-width: 960px;
+      height: 560px;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+      background: #141822;
+    }
+
+    .login-form-side {
+      flex: 1.05;
+      padding: 44px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: #151922;
+    }
+
+    .login-title {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .login-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* Botão do Google */
+    .btn-google-login {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: all 0.2s;
+      margin-bottom: 20px;
+    }
+
+    .btn-google-login:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.35);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .divider-row {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #4b5563;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .divider-row::before,
+    .divider-row::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .divider-row:not(:empty)::before { margin-right: .8em; }
+    .divider-row:not(:empty)::after { margin-left: .8em; }
+
+    .input-field-group { margin-bottom: 16px; }
+
+    .input-field-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .input-wrapper-login {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-login {
+      width: 100%;
+      background: #252d3d;
+      border: 1px solid #323c50;
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .input-login:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    }
+
+    .btn-toggle-eye {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+    }
+    .btn-toggle-eye:hover { color: #fff; }
+
+    .btn-entrar-submit {
+      width: 100%;
+      background: #31789c;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .btn-entrar-submit:hover { background: #276584; }
+
+    .link-primeiro-acesso {
+      display: block;
+      text-align: center;
+      color: #38bdf8;
+      font-size: 0.82rem;
+      margin-top: 18px;
+      text-decoration: none;
+      cursor: pointer;
+      opacity: 0.85;
+    }
+    .link-primeiro-acesso:hover { text-decoration: underline; opacity: 1; }
+
+    .login-visual-side {
+      flex: 1.15;
+      background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+    }
+
+    .login-visual-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(10, 13, 20, 0.7) 100%);
+    }
+
+    .human-academy-logo {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }
+    .human-academy-logo span {
+      font-weight: 300;
+      font-size: 0.85rem;
+      margin-left: 4px;
+      opacity: 0.85;
+    }
+
+    /* ============================================================== */
+    /* MODAL DE AUTENTICAÇÃO COM A CONTA GOOGLE (IDÊNTICO AO GOOGLE)   */
+    /* ============================================================== */
+    #googleAuthModalOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .google-auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: #202124;
+      border: 1px solid #3c4043;
+      border-radius: 28px;
+      padding: 40px 36px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      color: #e8eaed;
+      position: relative;
+    }
+
+    .google-logo-header {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .google-auth-title {
+      font-size: 1.5rem;
+      font-weight: 400;
+      text-align: center;
+      color: #e8eaed;
+      margin-bottom: 6px;
+    }
+
+    .google-auth-sub {
+      font-size: 0.95rem;
+      text-align: center;
+      color: #9aa0a6;
+      margin-bottom: 30px;
+    }
+
+    .google-input-box {
+      margin-bottom: 24px;
+    }
+
+    .google-text-input {
+      width: 100%;
+      background: transparent;
+      border: 1px solid #5f6368;
+      border-radius: 4px;
+      color: #e8eaed;
+      padding: 14px 16px;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .google-text-input:focus {
+      border-color: #8ab4f8;
+      border-width: 2px;
+      padding: 13px 15px;
+    }
+
+    .google-pill-account {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid #3c4043;
+      border-radius: 999px;
+      padding: 6px 14px 6px 6px;
+      width: fit-content;
+      margin: 0 auto 24px auto;
+      font-size: 0.88rem;
+      color: #e8eaed;
+      cursor: pointer;
+    }
+    .google-pill-account:hover { background: rgba(255,255,255,0.05); }
+
+    .google-pill-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #8ab4f8;
+      color: #202124;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+
+    .google-btn-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 36px;
+    }
+
+    .btn-google-text {
+      background: none;
+      border: none;
+      color: #8ab4f8;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 4px;
+    }
+    .btn-google-text:hover { background: rgba(138, 180, 248, 0.08); }
+
+    .btn-google-primary {
+      background: #8ab4f8;
+      color: #202124;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 20px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-google-primary:hover {
+      background: #aecbfa;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    /* SPINNER GOOGLE */
+    .google-spinner {
+      display: none;
+      width: 22px;
+      height: 22px;
+      border: 3px solid rgba(32, 33, 36, 0.3);
+      border-top-color: #202124;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ============================================================== */
+    /* LAYOUT PRINCIPAL DO DASHBOARD                                 */
+    /* ============================================================== */
+    .icon-sidebar {
+      width: 68px;
+      background: rgba(10, 12, 18, 0.7);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-right: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 18px 0;
+      z-index: 50;
+      flex-shrink: 0;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.15);
+      transition: transform 0.2s;
+    }
+    .brand-logo:hover { transform: scale(1.05); }
+
+    .nav-icon-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+      align-items: center;
+      flex: 1;
+    }
+
+    .nav-icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: transparent;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .nav-icon-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-icon-btn.active {
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.14);
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.2);
+    }
+
+    .nav-icon-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+    .user-avatar-pill {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .app-viewport {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .app-topbar {
+      height: 64px;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(12, 15, 22, 0.6);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      z-index: 40;
+    }
+
+    .breadcrumb-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-back {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--glass-border);
+      color: var(--text-primary);
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s;
+    }
+    .btn-back:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .search-aura-bar {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 7px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 270px;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s;
+    }
+    .search-aura-bar:focus-within {
+      border-color: var(--accent-blue);
+      background: rgba(255, 255, 255, 0.1);
+      width: 330px;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+    }
+    .search-aura-bar input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-size: 0.86rem;
+      width: 100%;
+    }
+
+    .view-container {
+      flex: 1;
+      overflow-y: auto;
+      display: none;
+      padding: 32px 36px 60px 36px;
+    }
+    .view-container.active { display: block; }
+
+    /* VIEW 1: HOME */
+    .home-hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) 220px;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .track-card {
+      border-radius: var(--radius-xl);
+      padding: 26px;
+      min-height: 270px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .track-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(12, 16, 26, 0.45) 0%, rgba(8, 10, 16, 0.88) 100%);
+      z-index: 1;
+    }
+
+    .track-card-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-between;
+    }
+
+    .track-category {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+    }
+
+    .track-title {
+      font-size: 2.3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-top: 6px;
+      color: #fff;
+    }
+
+    .track-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      max-width: 82%;
+      line-height: 1.4;
+    }
+
+    .btn-edit-home-cover {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .track-card:hover .btn-edit-home-cover,
+    .mini-track-card:hover .btn-edit-home-cover {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .btn-edit-home-cover:hover {
+      background: var(--accent-blue);
+      color: #000;
+      border-color: var(--accent-blue);
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+    }
+
+    .track-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 24px;
+      z-index: 2;
+    }
+
+    .btn-access {
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(10px);
+    }
+
+    .track-progress-badge {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--accent-blue);
+    }
+
+    .mini-track-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .mini-track-card {
+      flex: 1;
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .human-banner {
+      border-radius: var(--radius-xl);
+      padding: 34px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    /* VIEW 2: TRILHA (CREATE) */
+    .track-hero-banner {
+      border-radius: var(--radius-xl);
+      padding: 34px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .track-hero-title { font-size: 2.7rem; font-weight: 800; margin-bottom: 8px; }
+    .track-hero-sub { color: var(--text-secondary); font-size: 1rem; margin-bottom: 16px; max-width: 750px; }
+
+    .track-progress-card {
+      border-radius: var(--radius-lg);
+      padding: 20px 26px;
+      margin-bottom: 32px;
+    }
+    .progress-top-row { display: flex; justify-content: space-between; font-weight: 700; font-size: 0.92rem; margin-bottom: 10px; }
+    .progress-bar-rail { height: 7px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden; margin-bottom: 8px; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #38bdf8, #818cf8); border-radius: 999px; transition: width 0.3s; }
+
+    .section-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+    .section-heading-title { font-size: 1.35rem; font-weight: 800; }
+    .section-heading-desc { color: var(--text-secondary); font-size: 0.88rem; margin-top: 4px; }
+
+    /* GRID DE CURSOS */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 1400px) { .courses-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 1050px) { .courses-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .course-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      height: 310px;
+    }
+
+    .course-thumb-box {
+      height: 155px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .course-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(10, 13, 20, 0.85) 100%);
+      z-index: 1;
+    }
+
+    .course-num-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      z-index: 2;
+    }
+
+    .course-thumb-tag {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #fff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.9);
+      z-index: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
+
+    .course-info-box {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .course-title-text {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .course-desc-text {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .course-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* VIEW 3: SALA DE AULA / PLAYER */
+    .classroom-layout {
+      display: flex;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .classroom-main {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 32px;
+    }
+
+    .classroom-sidebar {
+      width: 410px;
+      background: rgba(12, 15, 24, 0.75);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-left: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .sidebar-course-title {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .course-modules-accordion {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+    }
+
+    .acc-module-group {
+      margin-bottom: 14px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .acc-module-banner {
+      height: 60px;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+    }
+
+    .acc-module-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 700;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .acc-module-lessons-list {
+      display: flex;
+      flex-direction: column;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .acc-lesson-item {
+      padding: 11px 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .acc-lesson-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+    }
+    .acc-lesson-item.active {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      font-weight: 600;
+      border-left: 3px solid var(--accent-blue);
+    }
+
+    .cinema-player-box {
+      width: 100%;
+      background: #000;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+      position: relative;
+      margin-bottom: 20px;
+      min-height: 440px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    }
+    .cinema-player-box video {
+      width: 100%;
+      height: 100%;
+      max-height: 64vh;
+      outline: none;
+    }
+
+    .video-control-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-tool {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s;
+    }
+    .btn-tool:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      border: none;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.3);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+    }
+
+    .btn-danger-pill {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--danger);
+    }
+    .btn-danger-pill:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .lesson-meta-bar { margin-bottom: 24px; }
+    .lesson-breadcrumb-path {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-blue);
+      margin-bottom: 6px;
+    }
+    .lesson-headline { font-size: 1.65rem; font-weight: 800; display: flex; align-items: center; justify-content: space-between; }
+
+    .tabs-row { display: flex; gap: 14px; border-bottom: 1px solid var(--glass-border); margin-bottom: 18px; }
+    .tab-item-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-weight: 600;
+      padding: 10px 16px;
+      font-size: 0.92rem;
+      cursor: pointer;
+      position: relative;
+    }
+    .tab-item-btn.active { color: #fff; }
+    .tab-item-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent-blue);
+    }
+    .tab-content-area { display: none; }
+    .tab-content-area.active { display: block; }
+
+    .prompt-box { border-radius: var(--radius-md); padding: 18px; margin-bottom: 14px; }
+    .prompt-box-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.92rem; font-weight: 700; margin-bottom: 8px; }
+    .code-display {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      font-family: monospace;
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .notes-box {
+      width: 100%;
+      height: 180px;
+      border-radius: var(--radius-md);
+      color: #fff;
+      padding: 16px;
+      font-size: 0.92rem;
+      outline: none;
+      resize: vertical;
+    }
+    .notes-box:focus { border-color: var(--accent-blue); }
+
+    /* MODAL DE PERSONALIZAÇÃO */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal-window {
+      width: 100%;
+      max-width: 580px;
+      border-radius: var(--radius-xl);
+      padding: 30px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7), var(--glass-specular);
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .modal-title { font-size: 1.3rem; font-weight: 800; }
+    .btn-close-modal {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-close-modal:hover { color: #fff; background: rgba(255, 255, 255, 0.15); }
+
+    .form-group { margin-bottom: 18px; }
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm);
+      color: #fff;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+    }
+    .form-textarea { resize: vertical; height: 80px; }
+
+    .cover-preview-box {
+      height: 140px;
+      border-radius: var(--radius-sm);
+      border: 1px dashed var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-size: cover;
+      background-position: center;
+      margin-top: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================== -->
+  <!-- TELA DE LOGIN PRINCIPAL (Sua Jornada Continua)                -->
+  <!-- ============================================================== -->
+  <div id="loginScreenOverlay">
+    <div class="login-card-container">
+      
+      <!-- LADO ESQUERDO: FORMULÁRIO -->
+      <div class="login-form-side">
+        <h2 class="login-title">Sua jornada continua</h2>
+        <p class="login-subtitle">Entre na sua conta para continuar</p>
+
+        <!-- BOTÃO DO GOOGLE (ABRE POPUP REAL DA CONTA GOOGLE) -->
+        <button class="btn-google-login" onclick="openGoogleAuthModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          Continuar com o Google
+        </button>
+
+        <div class="divider-row">ou entre com e-mail</div>
+
+        <form onsubmit="handleEmailLogin(event)">
+          <div class="input-field-group">
+            <label class="input-field-label">Email</label>
+            <div class="input-wrapper-login">
+              <input type="email" id="loginEmailInput" class="input-login" value="marianamorgado2@hotmail.com" required>
+            </div>
+          </div>
+
+          <div class="input-field-group">
+            <div class="input-field-label">
+              <span>Senha</span>
+              <a href="#" style="color:#64748b; text-decoration:none;" onclick="alert('Como este ambiente roda localmente, você pode definir qualquer senha.'); return false;">Esqueceu?</a>
+            </div>
+            <div class="input-wrapper-login">
+              <input type="password" id="loginPasswordInput" class="input-login" value="••••••••••••" required>
+              <button type="button" class="btn-toggle-eye" onclick="togglePasswordVisibility()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-entrar-submit">
+            Entrar →
+          </button>
+        </form>
+
+        <a class="link-primeiro-acesso" onclick="alert('Seu acesso está pronto! Você pode usar Continuar com o Google ou clicar em Entrar.');">
+          Primeiro acesso?
+        </a>
+      </div>
+
+      <!-- LADO DIREITO: IMAGEM + LOGO /HUMAN Academy -->
+      <div class="login-visual-side">
+        <div class="login-visual-overlay"></div>
+        <div class="human-academy-logo">
+          /HUMAN<span>Academy™</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- JANELA DE LOGIN DA CONTA GOOGLE (POPUP OFICIAL DO GOOGLE)      -->
+  <!-- ============================================================== -->
+  <div id="googleAuthModalOverlay">
+    <div class="google-auth-card">
+      
+      <!-- LOGO GOOGLE -->
+      <div class="google-logo-header">
+        <svg width="32" height="32" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+        </svg>
+      </div>
+
+      <div class="google-auth-title">Fazer login</div>
+      <div class="google-auth-sub">com sua Conta do Google para ir para <strong>Human Academy</strong></div>
+
+      <!-- ETAPA 1: DIGITAR GMAIL -->
+      <div id="googleStepEmail">
+        <div class="google-input-box">
+          <input type="email" id="googleEmailInput" class="google-text-input" placeholder="E-mail ou telefone (Gmail)" autofocus>
+        </div>
+
+        <div style="font-size:0.88rem; color:#9aa0a6; line-height:1.4; margin-bottom:20px;">
+          Não está no seu computador? Use o modo visitante para fazer login com privacidade.
+        </div>
+
+        <div class="google-btn-row">
+          <button type="button" class="btn-google-text" onclick="closeGoogleAuthModal()">Cancelar</button>
+          <button type="button" class="btn-google-primary" onclick="proceedGooglePasswordStep()">
+            Avançar
+          </button>
+        </div>
+      </div>
+
+      <!-- ETAPA 2: DIGITAR SENHA -->
+      <div id="googleStepPassword" style="display:none;">
+        <div class="google-pill-account" onclick="backToGoogleEmailStep()">
+          <div class="google-pill-avatar" id="googlePillAvatar">G</div>
+          <span id="googlePillEmailText">usuario@gmail.com</span>
+          <span style="font-size:11px; color:#9aa0a6;">▾</span>
+        </div>
+
+        <div class="google-input-box">
+          <input type="password" id="googlePasswordInput" class="google-text-input" placeholder="Digite sua senha">
+        </div>
+
+        <div style="display:flex; align-items:center; gap:8px; font-size:0.88rem; color:#9aa0a6; margin-bottom:20px;">
+          <input type="checkbox" id="checkShowGooglePass" onchange="toggleGooglePassVisibility()">
+          <label for="checkShowGooglePass" style="cursor:pointer;">Mostrar senha</label>
+        </div>
+
+        <div class="google-btn-row">
+          <button type="button" class="btn-google-text" onclick="backToGoogleEmailStep()">Voltar</button>
+          <button type="button" class="btn-google-primary" id="btnGoogleSubmit" onclick="finishGoogleAuth()">
+            <span id="googleBtnLabel">Avançar</span>
+            <div class="google-spinner" id="googleSpinner"></div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BARRA LATERAL ULTRA-FINA DE ÍCONES (APPLE TRANSLUCENT) -->
+  <aside class="icon-sidebar">
+    <div class="brand-logo" onclick="navigateToHome()" title="Academy Pass">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+        <path d="M2 12h20"></path>
+      </svg>
+    </div>
+
+    <div class="nav-icon-group">
+      <button class="nav-icon-btn active" id="navBtnHome" onclick="navigateToHome()" title="Home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </button>
+
+      <button class="nav-icon-btn" id="navBtnTrack" onclick="openTrackView('create')" title="Trilhas / Cursos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+      </button>
+
+      <button class="nav-icon-btn" id="navBtnLesson" onclick="navigateToCurrentLesson()" title="Sala de Aula">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+      </button>
+    </div>
+
+    <div class="user-avatar-pill" id="sidebarAvatarPill" onclick="logoutUser()" title="Clique para desconectar">
+      MH
+    </div>
+  </aside>
+
+  <!-- ÁREA DE VISUALIZAÇÃO PRINCIPAL -->
+  <div class="app-viewport">
+    
+    <!-- HEADER TOPO -->
+    <header class="app-topbar">
+      <div class="breadcrumb-title" id="topBreadcrumb">
+        <span>Home</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:16px;">
+        <div class="search-aura-bar">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="globalSearchInput" placeholder="Pergunte à Aura ou busque...">
+        </div>
+        
+        <div style="position:relative;">
+          <div class="user-avatar-pill" id="topbarAvatarPill" onclick="logoutUser()" title="Clique para desconectar">
+            MH
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================================================== -->
+    <!-- VIEW 1: HOME                                                   -->
+    <!-- ============================================================== -->
+    <div class="view-container active" id="viewHome">
+      <div class="home-hero-grid" id="homeHeroGrid"></div>
+
+      <!-- BANNER HUMAN INTELLIGENCE -->
+      <div class="human-banner apple-glass">
+        <div>
+          <div style="font-size:0.75rem; font-weight:700; color:var(--accent-blue); letter-spacing:0.06em;">
+            ✳ UM ESPAÇO PARA CRIAR
+          </div>
+          <h3 style="font-size:1.6rem; font-weight:800; margin:6px 0;">Human Intelligence</h3>
+          <p style="color:var(--text-secondary); font-size:0.95rem;">Uma ideia abre possibilidades. Converse, crie e dê forma ao que você imagina.</p>
+        </div>
+        <button class="btn-tool btn-primary" onclick="openTrackView('create')">
+          Começar uma ideia ↗
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- VIEW 2: TRILHA (CREATE)                                        -->
+    <!-- ============================================================== -->
+    <div class="view-container" id="viewTrack">
+      <div style="margin-bottom: 18px;">
+        <button class="btn-back" onclick="navigateToHome()">
+          ← Voltar para Home / Trilhas
+        </button>
+      </div>
+
+      <div class="track-hero-banner apple-glass">
+        <div class="track-hero-title" id="trackTitleDisplay">Create</div>
+        <div class="track-hero-sub" id="trackSubDisplay">
+          IA para criação — Conteúdo · Imagem · Vídeo · Campanhas · Apresentações
+        </div>
+        <div style="display:flex; gap:16px; font-size:0.86rem; color:var(--text-muted);">
+          <span id="trackCoursesCountBadge">📖 8 cursos</span>
+          <span id="trackLessonsCountBadge">200+ aulas no total</span>
+        </div>
+      </div>
+
+      <div class="track-progress-card apple-glass">
+        <div class="progress-top-row">
+          <span>Progresso na trilha</span>
+          <span style="color:var(--accent-blue);" id="trackProgressDisplay">17%</span>
+        </div>
+        <div class="progress-bar-rail">
+          <div class="progress-bar-fill" id="trackProgressRailFill" style="width: 17%;"></div>
+        </div>
+        <div style="font-size:0.8rem; color:var(--text-muted);">
+          Conclua todos os cursos para completar a trilha. Seu progresso é salvo no computador.
+        </div>
+      </div>
+
+      <div class="section-header-row">
+        <div>
+          <div class="section-heading-title">Cursos da trilha</div>
+          <div class="section-heading-desc">Passe o mouse no curso para ver opções ou personalizar capa e descrição.</div>
+        </div>
+        <button class="btn-tool btn-primary" onclick="addCoursePrompt()">
+          + Incluir Novo Curso
+        </button>
+      </div>
+
+      <div class="courses-grid" id="coursesGridContainer"></div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- VIEW 3: SALA DE AULA / PLAYER                                  -->
+    <!-- ============================================================== -->
+    <div class="view-container" id="viewLesson" style="padding:0; overflow:hidden;">
+      <div class="classroom-layout">
+        <div class="classroom-main">
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <button class="btn-back" onclick="openTrackView(currentTrackId)">
+              ← Voltar para Cursos da Trilha
+            </button>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-tool" onclick="openEditModuleModal(currentCourseId, currentModuleId)">
+                ✏️ Editar Módulo
+              </button>
+              <button class="btn-tool btn-danger-pill" onclick="deleteCurrentLessonPrompt()">
+                Excluir Aula
+              </button>
+              <button class="btn-tool" id="btnToggleDone" onclick="toggleCurrentLessonDone()">
+                Marcar como Concluída
+              </button>
+            </div>
+          </div>
+
+          <div class="cinema-player-box">
+            <video id="classroomVideoPlayer" controls>
+              Seu navegador não suporta a tag de vídeo.
+            </video>
+          </div>
+
+          <div class="video-control-strip apple-glass">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <label class="btn-tool btn-primary" for="classroomVideoFile">
+                📂 Abrir Vídeo Baixado (.mp4)
+              </label>
+              <input type="file" id="classroomVideoFile" accept="video/mp4,video/webm,video/mkv" style="display:none">
+              <span id="linkedVideoName" style="font-size:0.84rem; color:var(--text-secondary);">
+                Nenhum arquivo local vinculado à aula
+              </span>
+            </div>
+
+            <div style="display:flex; gap:6px;">
+              <button class="btn-tool" onclick="setSpeed(1)">1x</button>
+              <button class="btn-tool" onclick="setSpeed(1.25)">1.25x</button>
+              <button class="btn-tool" onclick="setSpeed(1.5)">1.5x</button>
+              <button class="btn-tool" onclick="setSpeed(1.75)">1.75x</button>
+              <button class="btn-tool" onclick="setSpeed(2)">2x</button>
+            </div>
+          </div>
+
+          <div class="lesson-meta-bar">
+            <div class="lesson-breadcrumb-path" id="lessonBreadcrumbText">
+              CREATE > CURSO > MÓDULO
+            </div>
+            <div class="lesson-headline">
+              <span id="currentLessonHeading">Título da Aula</span>
+            </div>
+          </div>
+
+          <div class="tabs-row">
+            <button class="tab-item-btn active" onclick="switchClassTab('tabMat', event)">Materiais & Prompts</button>
+            <button class="tab-item-btn" onclick="switchClassTab('tabNotes', event)">Minhas Anotações</button>
+          </div>
+
+          <div class="tab-content-area active" id="tabMat">
+            <div id="promptsContainer"></div>
+          </div>
+
+          <div class="tab-content-area" id="tabNotes">
+            <textarea class="notes-box apple-glass" id="classNotesArea" placeholder="Digite suas anotações sobre esta aula... Elas são salvas automaticamente no seu computador."></textarea>
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:6px; text-align:right;" id="notesStatusText">
+              Salvo localmente no computador.
+            </div>
+          </div>
+
+        </div>
+
+        <div class="classroom-sidebar">
+          <div class="sidebar-course-title">
+            <div>
+              <div style="font-size:0.75rem; color:var(--accent-blue); font-weight:700;" id="sidebarCourseNumber">CURSO 01</div>
+              <div style="font-size:1.05rem; font-weight:800;" id="sidebarCourseName">Image Creator Pro</div>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <button class="btn-tool" onclick="openEditCourseModal(currentCourseId)" title="Personalizar Curso">
+                ✏️ Capa
+              </button>
+              <button class="btn-tool btn-primary" onclick="addModuleInCurrentCoursePrompt()" title="Incluir Módulo">
+                + Módulo
+              </button>
+            </div>
+          </div>
+
+          <div class="course-modules-accordion" id="accordionContainer"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL TRANSLÚCIDO DE PERSONALIZAÇÃO -->
+  <div class="modal-overlay" id="editModalOverlay">
+    <div class="modal-window apple-glass">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalHeaderTitle">Personalizar</h3>
+        <button class="btn-close-modal" onclick="closeEditModal()">✕</button>
+      </div>
+
+      <input type="hidden" id="editTargetType" value="">
+      <input type="hidden" id="editTargetId" value="">
+      <input type="hidden" id="editParentId" value="">
+
+      <div class="form-group" id="formGroupCategory" style="display:none;">
+        <label class="form-label">Subtítulo / Categoria Superior</label>
+        <input type="text" class="form-input" id="editCategoryInput" placeholder="Ex: IA PARA CRIAÇÃO">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Título</label>
+        <input type="text" class="form-input" id="editTitleInput">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-textarea" id="editDescInput" placeholder="Breve resumo ou objetivos..."></textarea>
+      </div>
+
+      <div class="form-group" id="formGroupBadge" style="display:none;">
+        <label class="form-label">Badge de Status ou Porcentagem</label>
+        <input type="text" class="form-input" id="editBadgeInput" placeholder="Ex: 17% ou ▪ EM BREVE">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Imagem de Capa (Computador ou Link)</label>
+        <div style="display:flex; gap:10px; margin-bottom:8px;">
+          <label class="btn-tool" style="cursor:pointer;">
+            📁 Escolher do Computador
+            <input type="file" id="coverFileInput" accept="image/*" style="display:none">
+          </label>
+          <input type="text" class="form-input" id="editCoverUrlInput" placeholder="Ou cole o link/URL da imagem..." style="flex:1;">
+        </div>
+
+        <div class="cover-preview-box" id="coverPreviewBox">
+          <span style="font-size:0.85rem; color:var(--text-muted);" id="coverPreviewPlaceholder">
+            Nenhuma capa selecionada
+          </span>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px;">
+        <button class="btn-tool btn-danger-pill" id="btnRemoveCover" onclick="removeCoverImage()">Remover Capa</button>
+        <div style="display:flex; gap:10px;">
+          <button class="btn-tool" onclick="closeEditModal()">Cancelar</button>
+          <button class="btn-tool btn-primary" onclick="saveModalChanges()">Salvar Alterações</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DADOS INICIAIS
+    const DEFAULT_STORE = {
+      homeCards: [
+        {
+          id: "create",
+          title: "Create",
+          category: "IA PARA CRIAÇÃO",
+          desc: "Criação visual, prompts, vídeos cinematográficos e modelos de ponta.",
+          badge: "17%",
+          coverImg: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=700&q=80",
+          isMini: false
+        },
+        {
+          id: "agents",
+          title: "Agents",
+          category: "IA PARA AUTOMAÇÃO",
+          desc: "Agentes autônomos, workflows complexos e automações de negócios.",
+          badge: "0%",
+          coverImg: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=700&q=80",
+          isMini: false
+        },
+        {
+          id: "build",
+          title: "Build",
+          category: "IA PARA APPS E SITES",
+          desc: "Desenvolvimento assistido por IA, V0, Cursor e engenharia de software.",
+          badge: "0%",
+          coverImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=700&q=80",
+          isMini: false
+        },
+        {
+          id: "growth",
+          title: "Growth",
+          category: "MARKETING",
+          desc: "Estratégias de escala e aquisição.",
+          badge: "▪ EM BREVE",
+          coverImg: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80",
+          isMini: true
+        },
+        {
+          id: "design",
+          title: "Design",
+          category: "INTERFACES",
+          desc: "Design system e visual de alto padrão.",
+          badge: "▪ EM BREVE",
+          coverImg: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=400&q=80",
+          isMini: true
+        }
+      ],
+      tracks: [
+        {
+          id: "create",
+          title: "Create",
+          subtitle: "IA para criação — Conteúdo · Imagem · Vídeo · Campanhas · Apresentações",
+          category: "IA PARA CRIAÇÃO",
+          courses: [
+            {
+              id: "c_img_pro",
+              num: "01",
+              title: "Image Creator Pro",
+              desc: "Domine criação e composição visual hiper-realista com Midjourney, Flux e Stable Diffusion.",
+              thumbTag: "AI img creator",
+              coverImg: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
+              modules: [
+                {
+                  id: "m_img_intro",
+                  title: "INTRODUÇÃO",
+                  desc: "Boas-vindas e panorama da inteligência artificial generativa.",
+                  coverImg: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=400&q=80",
+                  lessons: [
+                    { id: "l_img_intro_1", title: "Visão Geral e Primeiros Passos", materials: [{ title: "Comunidade", content: "Links úteis e comunidade oficial." }] }
+                  ]
+                },
+                {
+                  id: "m_img_prep",
+                  title: "PREPARE-SE",
+                  desc: "Configuração dos ambientes e princípios de prompts.",
+                  coverImg: "",
+                  lessons: [
+                    { id: "l_img_p1", title: "Configuração de Modelos e Parâmetros", materials: [{ title: "Config Base", content: "Aspect ratio 16:9, stylize 250, v 6.1" }] },
+                    { id: "l_img_p2", title: "Engenharia de Prompt para Imagens", materials: [] }
+                  ]
+                },
+                {
+                  id: "m_img_create",
+                  title: "CRIAÇÃO DE IMAGENS",
+                  desc: "Texturização, composição e iluminação cinematográfica.",
+                  coverImg: "",
+                  lessons: [
+                    { id: "l_img_c1", title: "Texturização com logo no ChatGPT", materials: [{ title: "Prompt de Textura", content: "High detailed apple logo carved in ancient wood texture, macro photography, 8k, cinematic studio lighting" }] },
+                    { id: "l_img_c2", title: "Composição e Ângulos de Câmera", materials: [] }
+                  ]
+                },
+                {
+                  id: "m_img_styles",
+                  title: "CRIAÇÃO DE ESTILOS",
+                  desc: "Identidade visual proprietária para marcas e criadores.",
+                  lessons: [{ id: "l_img_s1", title: "Desenvolvimento de Estilo Visual Único", materials: [] }]
+                },
+                {
+                  id: "m_img_consist",
+                  title: "CONSISTÊNCIA VISUAL",
+                  desc: "Manter o mesmo personagem e estética em múltiplos takes.",
+                  lessons: [{ id: "l_img_cs1", title: "Mesmo Personagem em Cenas Diferentes", materials: [] }]
+                },
+                {
+                  id: "m_img_stock",
+                  title: "BANCO DE IMAGEM",
+                  desc: "Geração em lote para agências e marcas.",
+                  lessons: [{ id: "l_img_st1", title: "Produção de Mockups em Lote", materials: [] }]
+                },
+                {
+                  id: "m_img_still",
+                  title: "STILL DE PRODUTO",
+                  desc: "Fotografia publicitária para e-commerce.",
+                  lessons: [{ id: "l_img_sp1", title: "Fotografia Publicitária com IA", materials: [] }]
+                },
+                {
+                  id: "m_img_mockup",
+                  title: "MOCKUPS E APLICAÇÕES",
+                  desc: "Branding e inserção realista de embalagens.",
+                  lessons: [{ id: "l_img_mk1", title: "Inserção em Branding e Embalagens", materials: [] }]
+                },
+                {
+                  id: "m_img_ads",
+                  title: "EFEITOS E ADS PARA MARCAS",
+                  desc: "Criativos de alto CTR para tráfego pago.",
+                  lessons: [{ id: "l_img_ad1", title: "Criativos de Alta Conversão", materials: [] }]
+                }
+              ]
+            },
+            {
+              id: "c_vid_pro",
+              num: "02",
+              title: "Video Creator Pro",
+              desc: "Geração de vídeos cinematográficos com Runway Gen-3, Luma Dream Machine e Kling.",
+              thumbTag: "AI video creator",
+              coverImg: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
+              modules: [
+                {
+                  id: "m_vid_1",
+                  title: "FUNDAMENTOS DE VÍDEO IA",
+                  desc: "Movimentos de câmera, iluminação e controle temporal.",
+                  lessons: [
+                    { id: "l_vid_1", title: "Runway Gen-3 & Kling AI", materials: [] },
+                    { id: "l_vid_2", title: "Controle de Câmera e Movimento", materials: [] }
+                  ]
+                }
+              ]
+            },
+            {
+              id: "c_anim",
+              num: "03",
+              title: "AI Animation",
+              desc: "Animação de personagens, motion design e anime com IA.",
+              thumbTag: "AI Animation",
+              coverImg: "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80",
+              modules: []
+            },
+            {
+              id: "c_core",
+              num: "04",
+              title: "Creative Core",
+              desc: "Pensamento criativo, direção de arte e curadoria.",
+              thumbTag: "Creative Core",
+              coverImg: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80",
+              modules: []
+            },
+            {
+              id: "c_ps",
+              num: "05",
+              title: "AI Photoshop",
+              desc: "Adobe Generative Fill, restauração e retoque de ponta.",
+              thumbTag: "AI Photoshop",
+              coverImg: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80",
+              modules: []
+            },
+            {
+              id: "c_clones",
+              num: "06",
+              title: "AI Clones",
+              desc: "Avatares hiper-realistas, sincronia labial e clonagem de voz.",
+              thumbTag: "AI Clones",
+              coverImg: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=600&q=80",
+              modules: []
+            },
+            {
+              id: "c_upscale",
+              num: "07",
+              title: "Upscale Pro",
+              desc: "Magnific, Topaz e aumento de fidelidade para 4K e 8K.",
+              thumbTag: "Upscale Pro",
+              coverImg: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80",
+              modules: []
+            },
+            {
+              id: "c_google",
+              num: "08",
+              title: "AI Google",
+              desc: "Ecossistema Google Gemini e ferramentas de pesquisa e criação.",
+              thumbTag: "AI Google",
+              coverImg: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
+              modules: []
+            }
+          ]
+        },
+        { id: "agents", title: "Agents", subtitle: "IA para automação", category: "IA PARA AUTOMAÇÃO", courses: [] },
+        { id: "build", title: "Build", subtitle: "IA para apps e sites", category: "IA PARA APPS E SITES", courses: [] }
+      ]
+    };
+
+    let appData = JSON.parse(localStorage.getItem("academypass_store_v6")) || DEFAULT_STORE;
+    let completedLessons = JSON.parse(localStorage.getItem("academypass_completed")) || {};
+    let currentUser = JSON.parse(localStorage.getItem("academypass_user_v2")) || null;
+
+    let currentTrackId = "create";
+    let currentCourseId = "c_img_pro";
+    let currentModuleId = "m_img_create";
+    let currentLessonId = "l_img_c1";
+
+    let tempCoverBase64 = "";
+
+    window.addEventListener("DOMContentLoaded", () => {
+      checkLoginStatus();
+      renderHomeTracks();
+      navigateToHome();
+
+      // Video local
+      document.getElementById("classroomVideoFile").addEventListener("change", function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const videoUrl = URL.createObjectURL(file);
+          const player = document.getElementById("classroomVideoPlayer");
+          player.src = videoUrl;
+          player.play();
+          document.getElementById("linkedVideoName").textContent = "Carregado: " + file.name;
+          if (currentLessonId) {
+            localStorage.setItem("vid_link_" + currentLessonId, file.name);
+          }
+        }
+      });
+
+      // Anotações
+      document.getElementById("classNotesArea").addEventListener("input", function(e) {
+        if (currentLessonId) {
+          localStorage.setItem("notes_" + currentLessonId, e.target.value);
+          document.getElementById("notesStatusText").textContent = "Salvo automaticamente às " + new Date().toLocaleTimeString();
+        }
+      });
+
+      // Upload de arquivo de capa
+      document.getElementById("coverFileInput").addEventListener("change", function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(evt) {
+            tempCoverBase64 = evt.target.result;
+            updateCoverPreview(tempCoverBase64);
+            document.getElementById("editCoverUrlInput").value = "";
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      document.getElementById("editCoverUrlInput").addEventListener("input", function(e) {
+        tempCoverBase64 = e.target.value.trim();
+        updateCoverPreview(tempCoverBase64);
+      });
+
+      // Busca
+      document.getElementById("globalSearchInput").addEventListener("input", function(e) {
+        const q = e.target.value.toLowerCase().trim();
+        document.querySelectorAll(".course-card").forEach(c => {
+          c.style.display = c.textContent.toLowerCase().includes(q) ? "flex" : "none";
+        });
+      });
+    });
+
+    // ==========================================
+    // SISTEMA DE LOGIN REAL COM GOOGLE / GMAIL
+    // ==========================================
+    function checkLoginStatus() {
+      const overlay = document.getElementById("loginScreenOverlay");
+      if (currentUser) {
+        overlay.style.display = "none";
+        updateUserUI(currentUser);
+      } else {
+        overlay.style.display = "flex";
+      }
+    }
+
+    // Abre o popup do Google para digitar a conta
+    function openGoogleAuthModal() {
+      document.getElementById("googleAuthModalOverlay").style.display = "flex";
+      document.getElementById("googleStepEmail").style.display = "block";
+      document.getElementById("googleStepPassword").style.display = "none";
+      const inp = document.getElementById("googleEmailInput");
+      inp.value = "";
+      inp.focus();
+    }
+
+    function closeGoogleAuthModal() {
+      document.getElementById("googleAuthModalOverlay").style.display = "none";
+    }
+
+    function proceedGooglePasswordStep() {
+      const email = document.getElementById("googleEmailInput").value.trim();
+      if (!email || !email.includes("@")) {
+        alert("Digite um endereço de e-mail válido da sua conta Google ou Gmail.");
+        return;
+      }
+
+      document.getElementById("googlePillEmailText").textContent = email;
+      document.getElementById("googlePillAvatar").textContent = email.charAt(0).toUpperCase();
+
+      document.getElementById("googleStepEmail").style.display = "none";
+      document.getElementById("googleStepPassword").style.display = "block";
+      const passInp = document.getElementById("googlePasswordInput");
+      passInp.value = "";
+      passInp.focus();
+    }
+
+    function backToGoogleEmailStep() {
+      document.getElementById("googleStepPassword").style.display = "none";
+      document.getElementById("googleStepEmail").style.display = "block";
+      document.getElementById("googleEmailInput").focus();
+    }
+
+    function toggleGooglePassVisibility() {
+      const pass = document.getElementById("googlePasswordInput");
+      pass.type = pass.type === "password" ? "text" : "password";
+    }
+
+    function finishGoogleAuth() {
+      const email = document.getElementById("googleEmailInput").value.trim();
+      const pass = document.getElementById("googlePasswordInput").value;
+
+      if (!pass) {
+        alert("Digite sua senha para continuar.");
+        return;
+      }
+
+      // Feedback visual de carregamento do Google
+      const btn = document.getElementById("btnGoogleSubmit");
+      const label = document.getElementById("googleBtnLabel");
+      const spinner = document.getElementById("googleSpinner");
+
+      label.textContent = "";
+      spinner.style.display = "inline-block";
+      btn.disabled = true;
+
+      setTimeout(() => {
+        // Conclui login com a conta Google digitada pelo usuário
+        const username = email.split("@")[0].replace(/[._]/g, " ");
+        currentUser = {
+          name: username.charAt(0).toUpperCase() + username.slice(1),
+          email: email,
+          initials: email.substring(0, 2).toUpperCase(),
+          provider: "Google"
+        };
+
+        localStorage.setItem("academypass_user_v2", JSON.stringify(currentUser));
+        updateUserUI(currentUser);
+
+        // Fecha modal do Google e fecha tela de login
+        closeGoogleAuthModal();
+        hideLoginWithAnimation();
+
+        // Reseta botão do Google
+        label.textContent = "Avançar";
+        spinner.style.display = "none";
+        btn.disabled = false;
+      }, 1100);
+    }
+
+    function handleEmailLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById("loginEmailInput").value.trim();
+      currentUser = {
+        name: email.split("@")[0],
+        email: email,
+        initials: email.substring(0, 2).toUpperCase(),
+        provider: "Email"
+      };
+      localStorage.setItem("academypass_user_v2", JSON.stringify(currentUser));
+      updateUserUI(currentUser);
+      hideLoginWithAnimation();
+    }
+
+    function hideLoginWithAnimation() {
+      const overlay = document.getElementById("loginScreenOverlay");
+      overlay.style.transition = "opacity 0.4s ease";
+      overlay.style.opacity = "0";
+      setTimeout(() => {
+        overlay.style.display = "none";
+        overlay.style.opacity = "1";
+      }, 400);
+    }
+
+    function logoutUser() {
+      if (confirm("Deseja sair da sua conta e voltar para a tela de login?")) {
+        localStorage.removeItem("academypass_user_v2");
+        currentUser = null;
+        document.getElementById("loginScreenOverlay").style.display = "flex";
+      }
+    }
+
+    function updateUserUI(user) {
+      const inits = user.initials || "MH";
+      document.getElementById("sidebarAvatarPill").textContent = inits;
+      document.getElementById("topbarAvatarPill").textContent = inits;
+      document.getElementById("sidebarAvatarPill").title = `${user.email} (Clique para sair)`;
+      document.getElementById("topbarAvatarPill").title = `${user.email} (Clique para sair)`;
+    }
+
+    function togglePasswordVisibility() {
+      const pass = document.getElementById("loginPasswordInput");
+      pass.type = pass.type === "password" ? "text" : "password";
+    }
+
+    function saveStore() {
+      localStorage.setItem("academypass_store_v6", JSON.stringify(appData));
+    }
+
+    // ==========================================
+    // RENDERIZAR OS CARDS DA HOME COM CAPAS
+    // ==========================================
+    function renderHomeTracks() {
+      const container = document.getElementById("homeHeroGrid");
+      container.innerHTML = "";
+
+      const mainCards = appData.homeCards.filter(c => !c.isMini);
+      const miniCards = appData.homeCards.filter(c => c.isMini);
+
+      mainCards.forEach(card => {
+        const el = document.createElement("div");
+        el.className = "track-card apple-glass-card";
+        if (card.coverImg) {
+          el.style.backgroundImage = `url('${card.coverImg}')`;
+        }
+
+        el.onclick = () => openTrackView(card.id);
+
+        el.innerHTML = `
+          <div class="track-card-overlay"></div>
+          <button class="btn-edit-home-cover" title="Editar Capa deste Card" onclick="event.stopPropagation(); openEditHomeCardModal('${card.id}')">
+            ✏️ Editar Capa
+          </button>
+          <div class="track-card-content">
+            <div>
+              <div class="track-category">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                ${escapeHtml(card.category || 'TRILHA')}
+              </div>
+              <div class="track-title">${escapeHtml(card.title)}</div>
+              <div class="track-desc">${escapeHtml(card.desc || '')}</div>
+            </div>
+
+            <div class="track-footer">
+              <span class="btn-access">Acesse ↗</span>
+              <span class="track-progress-badge">${escapeHtml(card.badge || '0%')}</span>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(el);
+      });
+
+      const stack = document.createElement("div");
+      stack.className = "mini-track-stack";
+
+      miniCards.forEach(card => {
+        const mini = document.createElement("div");
+        mini.className = "mini-track-card apple-glass-card";
+        if (card.coverImg) {
+          mini.style.backgroundImage = `linear-gradient(180deg, rgba(0,0,0,0.3), rgba(10,13,22,0.85)), url('${card.coverImg}')`;
+        }
+
+        mini.innerHTML = `
+          <button class="btn-edit-home-cover" title="Editar Capa deste Card" onclick="event.stopPropagation(); openEditHomeCardModal('${card.id}')">
+            ✏️
+          </button>
+          <div>
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">${escapeHtml(card.category || '')}</div>
+            <div style="font-size:1.15rem; font-weight:800; margin-top:4px;">${escapeHtml(card.title)}</div>
+            <div style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">${escapeHtml(card.desc || '')}</div>
+          </div>
+          <div style="font-size:0.7rem; color:var(--accent-blue); font-weight:700; margin-top:8px;">
+            ${escapeHtml(card.badge || '▪ EM BREVE')}
+          </div>
+        `;
+
+        stack.appendChild(mini);
+      });
+
+      container.appendChild(stack);
+    }
+
+    // NAVEGAÇÃO
+    function hideAllViews() {
+      document.querySelectorAll(".view-container").forEach(v => v.classList.remove("active"));
+      document.querySelectorAll(".nav-icon-btn").forEach(b => b.classList.remove("active"));
+    }
+
+    function navigateToHome() {
+      hideAllViews();
+      document.getElementById("viewHome").classList.add("active");
+      document.getElementById("navBtnHome").classList.add("active");
+      document.getElementById("topBreadcrumb").innerHTML = "<span>Home</span>";
+    }
+
+    function openTrackView(trackId) {
+      currentTrackId = trackId;
+      hideAllViews();
+      document.getElementById("viewTrack").classList.add("active");
+      document.getElementById("navBtnTrack").classList.add("active");
+
+      let track = appData.tracks.find(t => t.id === trackId);
+      if (!track) {
+        const homeRef = appData.homeCards.find(c => c.id === trackId);
+        track = {
+          id: trackId,
+          title: homeRef ? homeRef.title : trackId,
+          subtitle: homeRef ? homeRef.desc : "Trilha de aprendizado",
+          category: homeRef ? homeRef.category : "TRILHA",
+          courses: []
+        };
+        appData.tracks.push(track);
+        saveStore();
+      }
+
+      document.getElementById("trackTitleDisplay").textContent = track.title;
+      document.getElementById("trackSubDisplay").textContent = track.subtitle || track.desc || "";
+      document.getElementById("topBreadcrumb").innerHTML = `
+        <span style="cursor:pointer;" onclick="navigateToHome()">Home</span>
+        <span style="color:var(--text-muted);">/</span>
+        <span style="color:var(--accent-blue);">${track.title}</span>
+      `;
+
+      renderCoursesGrid(track);
+    }
+
+    function openCourse(courseId) {
+      currentCourseId = courseId;
+      const course = findCourse(courseId);
+      if (!course) return;
+
+      let firstLesson = null;
+      for (const m of course.modules) {
+        if (m.lessons.length > 0) {
+          firstLesson = m.lessons[0];
+          currentModuleId = m.id;
+          break;
+        }
+      }
+
+      hideAllViews();
+      document.getElementById("viewLesson").classList.add("active");
+      document.getElementById("navBtnLesson").classList.add("active");
+
+      renderAccordion(course);
+
+      if (firstLesson) {
+        selectLesson(firstLesson.id);
+      } else {
+        document.getElementById("currentLessonHeading").textContent = "Nenhuma aula cadastrada";
+        document.getElementById("promptsContainer").innerHTML = `<div style="color:var(--text-muted); padding:10px 0;">Adicione um módulo ou aula para começar.</div>`;
+      }
+    }
+
+    function navigateToCurrentLesson() {
+      if (currentCourseId) openCourse(currentCourseId);
+      else openTrackView("create");
+    }
+
+    // RENDERIZAR GRID DE CURSOS
+    function renderCoursesGrid(track) {
+      const grid = document.getElementById("coursesGridContainer");
+      grid.innerHTML = "";
+
+      let totalLessons = 0;
+      track.courses.forEach(c => {
+        c.modules.forEach(m => totalLessons += m.lessons.length);
+      });
+
+      document.getElementById("trackCoursesCountBadge").textContent = `📖 ${track.courses.length} cursos`;
+      document.getElementById("trackLessonsCountBadge").textContent = `${totalLessons} aulas no total`;
+
+      if (track.courses.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: var(--text-muted);">
+            Nenhum curso cadastrado nesta trilha ainda.<br>
+            <button class="btn-tool btn-primary" style="margin-top:14px;" onclick="addCoursePrompt()">+ Incluir Primeiro Curso</button>
+          </div>
+        `;
+        return;
+      }
+
+      track.courses.forEach(course => {
+        let courseLessonsCount = 0;
+        let courseCompletedCount = 0;
+        course.modules.forEach(m => {
+          courseLessonsCount += m.lessons.length;
+          m.lessons.forEach(l => {
+            if (completedLessons[l.id]) courseCompletedCount++;
+          });
+        });
+
+        const card = document.createElement("div");
+        card.className = "course-card apple-glass-card";
+        card.onclick = () => openCourse(course.id);
+
+        const coverStyle = course.coverImg 
+          ? `background-image: url('${escapeHtml(course.coverImg)}')` 
+          : `background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.3))`;
+
+        card.innerHTML = `
+          <div class="course-thumb-box" style="${coverStyle}">
+            <div class="course-thumb-overlay"></div>
+            <span class="course-num-badge">${course.num || '01'}</span>
+            <div class="course-thumb-tag">${escapeHtml(course.title)}</div>
+          </div>
+          <div class="course-info-box">
+            <div>
+              <div class="course-title-text">${escapeHtml(course.title)}</div>
+              <div class="course-desc-text">${escapeHtml(course.desc || 'Sem descrição cadastrada.')}</div>
+            </div>
+            <div class="course-actions-row">
+              <span style="font-size:0.78rem; color:var(--text-muted);">${courseCompletedCount}/${courseLessonsCount} aulas</span>
+              <div style="display:flex; gap:6px;">
+                <button class="btn-tool" style="padding:3px 8px; font-size:0.75rem;" title="Personalizar Capa e Descrição" onclick="event.stopPropagation(); openEditCourseModal('${course.id}')">✏️ Capa</button>
+                <button class="btn-tool btn-danger-pill" style="padding:3px 7px; font-size:0.75rem;" title="Excluir Curso" onclick="event.stopPropagation(); deleteCoursePrompt('${course.id}')">🗑️</button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // ACCORDION
+    function renderAccordion(course) {
+      document.getElementById("sidebarCourseNumber").textContent = `CURSO ${course.num || '01'}`;
+      document.getElementById("sidebarCourseName").textContent = course.title;
+
+      const container = document.getElementById("accordionContainer");
+      container.innerHTML = "";
+
+      if (course.modules.length === 0) {
+        container.innerHTML = `
+          <div style="padding:24px; text-align:center; color:var(--text-muted); font-size:0.85rem;">
+            Nenhum módulo cadastrado.<br>Clique em <strong>+ Módulo</strong> acima.
+          </div>
+        `;
+        return;
+      }
+
+      course.modules.forEach(mod => {
+        let modDone = 0;
+        mod.lessons.forEach(l => {
+          if (completedLessons[l.id]) modDone++;
+        });
+
+        const group = document.createElement("div");
+        group.className = "acc-module-group apple-glass";
+
+        let bannerHtml = "";
+        if (mod.coverImg) {
+          bannerHtml = `
+            <div class="acc-module-banner" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(10,13,22,0.85)), url('${escapeHtml(mod.coverImg)}')">
+              <div style="font-size:0.75rem; color:#fff; font-weight:700; text-shadow:0 1px 4px #000;">
+                ${escapeHtml(mod.desc || '')}
+              </div>
+            </div>
+          `;
+        }
+
+        const header = document.createElement("div");
+        header.className = "acc-module-header";
+        header.innerHTML = `
+          <div style="display:flex; align-items:center; gap:8px; flex:1; overflow:hidden;">
+            <span style="color:var(--accent-blue);">▾</span>
+            <div>
+              <div style="font-size:0.82rem; letter-spacing:0.04em; font-weight:800;">${escapeHtml(mod.title)}</div>
+              ${mod.desc && !mod.coverImg ? `<div style="font-size:0.72rem; color:var(--text-muted); font-weight:400; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">${escapeHtml(mod.desc)}</div>` : ''}
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:0.75rem; color:var(--text-muted);">${modDone}/${mod.lessons.length}</span>
+            <button class="btn-tool" style="padding:2px 6px; font-size:0.72rem;" title="Editar Módulo" onclick="event.stopPropagation(); openEditModuleModal('${course.id}', '${mod.id}')">✏️</button>
+            <button class="btn-tool" style="padding:2px 6px; font-size:0.72rem;" title="Incluir Aula" onclick="event.stopPropagation(); addLessonInModulePrompt('${course.id}', '${mod.id}')">+ Aula</button>
+            <button class="btn-tool btn-danger-pill" style="padding:2px 6px; font-size:0.72rem;" title="Excluir Módulo" onclick="event.stopPropagation(); deleteModuleFromCoursePrompt('${course.id}', '${mod.id}')">🗑️</button>
+          </div>
+        `;
+
+        const list = document.createElement("div");
+        list.className = "acc-module-lessons-list";
+
+        mod.lessons.forEach(lesson => {
+          const item = document.createElement("div");
+          item.className = "acc-lesson-item";
+          item.id = "acc_item_" + lesson.id;
+          if (currentLessonId === lesson.id) item.classList.add("active");
+
+          const isDone = !!completedLessons[lesson.id];
+
+          item.innerHTML = `
+            <span style="color:${isDone ? 'var(--success)' : 'var(--text-muted)'}; font-size:0.85rem;">${isDone ? '✓' : '○'}</span>
+            <span style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(lesson.title)}</span>
+            <button class="btn-tool btn-danger-pill" style="padding:1px 5px; font-size:0.7rem; opacity:0.6;" title="Excluir Aula" onclick="event.stopPropagation(); deleteLessonById('${course.id}', '${mod.id}', '${lesson.id}')">✕</button>
+          `;
+
+          item.onclick = () => {
+            currentModuleId = mod.id;
+            selectLesson(lesson.id);
+          };
+          list.appendChild(item);
+        });
+
+        header.onclick = () => {
+          list.style.display = list.style.display === "none" ? "flex" : "none";
+        };
+
+        if (bannerHtml) group.innerHTML = bannerHtml;
+        group.appendChild(header);
+        group.appendChild(list);
+        container.appendChild(group);
+      });
+    }
+
+    // SELEÇÃO DE AULA
+    function selectLesson(lessonId) {
+      currentLessonId = lessonId;
+      const info = findLessonContext(lessonId);
+      if (!info) return;
+
+      const { track, course, module, lesson } = info;
+      currentModuleId = module.id;
+
+      document.querySelectorAll(".acc-lesson-item").forEach(el => el.classList.remove("active"));
+      const target = document.getElementById("acc_item_" + lessonId);
+      if (target) target.classList.add("active");
+
+      document.getElementById("lessonBreadcrumbText").textContent = `${track.title} > ${course.title} > ${module.title}`;
+      document.getElementById("currentLessonHeading").textContent = lesson.title;
+      document.getElementById("topBreadcrumb").innerHTML = `
+        <span style="cursor:pointer;" onclick="navigateToHome()">Home</span>
+        <span style="color:var(--text-muted);">/</span>
+        <span style="cursor:pointer;" onclick="openTrackView('${track.id}')">${track.title}</span>
+        <span style="color:var(--text-muted);">/</span>
+        <span style="color:var(--accent-blue);">${course.title}</span>
+      `;
+
+      updateDoneButton(lessonId);
+
+      const savedVid = localStorage.getItem("vid_link_" + lessonId);
+      document.getElementById("linkedVideoName").textContent = savedVid 
+        ? "Vinculado: " + savedVid 
+        : "Nenhum arquivo local vinculado à aula";
+
+      const notes = localStorage.getItem("notes_" + lessonId) || "";
+      document.getElementById("classNotesArea").value = notes;
+      document.getElementById("notesStatusText").textContent = notes ? "Anotações recuperadas." : "Nenhuma anotação gravada.";
+
+      renderPrompts(lesson);
+    }
+
+    function renderPrompts(lesson) {
+      const container = document.getElementById("promptsContainer");
+      if (!lesson.materials || lesson.materials.length === 0) {
+        container.innerHTML = `
+          <div style="color:var(--text-muted); font-size:0.88rem; padding:12px 0;">
+            Nenhum prompt ou link extra cadastrado para esta aula.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = lesson.materials.map(mat => `
+        <div class="prompt-box apple-glass">
+          <div class="prompt-box-header">
+            <span>${escapeHtml(mat.title)}</span>
+            <button class="btn-tool" style="padding:4px 10px; font-size:0.75rem;" onclick="copyText('${escapeHtml(mat.content)}')">Copiar</button>
+          </div>
+          <div class="code-display">${escapeHtml(mat.content)}</div>
+        </div>
+      `).join("");
+    }
+
+    // ==========================================
+    // MODAL DE PERSONALIZAÇÃO
+    // ==========================================
+    function openEditHomeCardModal(cardId) {
+      const card = appData.homeCards.find(c => c.id === cardId);
+      if (!card) return;
+
+      document.getElementById("editTargetType").value = "homeCard";
+      document.getElementById("editTargetId").value = card.id;
+      document.getElementById("modalHeaderTitle").textContent = "Personalizar Capa da Home: " + card.title;
+
+      document.getElementById("formGroupCategory").style.display = "block";
+      document.getElementById("formGroupBadge").style.display = "block";
+
+      document.getElementById("editCategoryInput").value = card.category || "";
+      document.getElementById("editTitleInput").value = card.title;
+      document.getElementById("editDescInput").value = card.desc || "";
+      document.getElementById("editBadgeInput").value = card.badge || "";
+      document.getElementById("editCoverUrlInput").value = card.coverImg || "";
+
+      tempCoverBase64 = card.coverImg || "";
+      updateCoverPreview(tempCoverBase64);
+
+      document.getElementById("editModalOverlay").classList.add("active");
+    }
+
+    function openEditCourseModal(courseId) {
+      const course = findCourse(courseId);
+      if (!course) return;
+
+      document.getElementById("editTargetType").value = "course";
+      document.getElementById("editTargetId").value = course.id;
+      document.getElementById("modalHeaderTitle").textContent = "Personalizar Curso: " + course.title;
+
+      document.getElementById("formGroupCategory").style.display = "none";
+      document.getElementById("formGroupBadge").style.display = "none";
+
+      document.getElementById("editTitleInput").value = course.title;
+      document.getElementById("editDescInput").value = course.desc || "";
+      document.getElementById("editCoverUrlInput").value = course.coverImg || "";
+
+      tempCoverBase64 = course.coverImg || "";
+      updateCoverPreview(tempCoverBase64);
+
+      document.getElementById("editModalOverlay").classList.add("active");
+    }
+
+    function openEditModuleModal(courseId, modId) {
+      const course = findCourse(courseId);
+      if (!course) return;
+      const mod = course.modules.find(m => m.id === modId);
+      if (!mod) return;
+
+      document.getElementById("editTargetType").value = "module";
+      document.getElementById("editTargetId").value = mod.id;
+      document.getElementById("editParentId").value = course.id;
+      document.getElementById("modalHeaderTitle").textContent = "Personalizar Módulo: " + mod.title;
+
+      document.getElementById("formGroupCategory").style.display = "none";
+      document.getElementById("formGroupBadge").style.display = "none";
+
+      document.getElementById("editTitleInput").value = mod.title;
+      document.getElementById("editDescInput").value = mod.desc || "";
+      document.getElementById("editCoverUrlInput").value = mod.coverImg || "";
+
+      tempCoverBase64 = mod.coverImg || "";
+      updateCoverPreview(tempCoverBase64);
+
+      document.getElementById("editModalOverlay").classList.add("active");
+    }
+
+    function closeEditModal() {
+      document.getElementById("editModalOverlay").classList.remove("active");
+    }
+
+    function removeCoverImage() {
+      tempCoverBase64 = "";
+      document.getElementById("editCoverUrlInput").value = "";
+      updateCoverPreview("");
+    }
+
+    function updateCoverPreview(imgSrc) {
+      const box = document.getElementById("coverPreviewBox");
+      const ph = document.getElementById("coverPreviewPlaceholder");
+      if (imgSrc) {
+        box.style.backgroundImage = `url('${imgSrc}')`;
+        ph.style.display = "none";
+      } else {
+        box.style.backgroundImage = "none";
+        ph.style.display = "block";
+      }
+    }
+
+    function saveModalChanges() {
+      const type = document.getElementById("editTargetType").value;
+      const targetId = document.getElementById("editTargetId").value;
+      const title = document.getElementById("editTitleInput").value.trim();
+      const desc = document.getElementById("editDescInput").value.trim();
+      const cover = tempCoverBase64.trim();
+
+      if (type === "homeCard") {
+        const card = appData.homeCards.find(c => c.id === targetId);
+        if (card) {
+          if (title) card.title = title;
+          card.desc = desc;
+          card.category = document.getElementById("editCategoryInput").value.trim();
+          card.badge = document.getElementById("editBadgeInput").value.trim();
+          card.coverImg = cover;
+          saveStore();
+          renderHomeTracks();
+        }
+      } else if (type === "course") {
+        const course = findCourse(targetId);
+        if (course) {
+          if (title) course.title = title;
+          course.desc = desc;
+          course.coverImg = cover;
+          saveStore();
+          renderCoursesGrid(appData.tracks.find(t => t.id === currentTrackId) || appData.tracks[0]);
+          if (currentCourseId === course.id) {
+            document.getElementById("sidebarCourseName").textContent = course.title;
+          }
+        }
+      } else if (type === "module") {
+        const courseId = document.getElementById("editParentId").value;
+        const course = findCourse(courseId);
+        if (course) {
+          const mod = course.modules.find(m => m.id === targetId);
+          if (mod) {
+            if (title) mod.title = title.toUpperCase();
+            mod.desc = desc;
+            mod.coverImg = cover;
+            saveStore();
+            renderAccordion(course);
+          }
+        }
+      }
+
+      closeEditModal();
+    }
+
+    // CRIAÇÃO E EXCLUSÃO
+    function addCoursePrompt() {
+      const title = prompt("Digite o nome do novo Curso:");
+      if (!title || !title.trim()) return;
+
+      const track = appData.tracks.find(t => t.id === currentTrackId) || appData.tracks[0];
+      const nextNum = (track.courses.length + 1).toString().padStart(2, "0");
+
+      const newCourse = {
+        id: "c_" + Date.now(),
+        num: nextNum,
+        title: title.trim(),
+        desc: "Novo curso adicionado.",
+        coverImg: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
+        modules: [
+          {
+            id: "m_" + Date.now(),
+            title: "MÓDULO 01 - INTRODUÇÃO",
+            desc: "Primeiros passos do curso.",
+            coverImg: "",
+            lessons: [{ id: "l_" + Date.now(), title: "01. Visão Geral", materials: [] }]
+          }
+        ]
+      };
+
+      track.courses.push(newCourse);
+      saveStore();
+      renderCoursesGrid(track);
+    }
+
+    function deleteCoursePrompt(courseId) {
+      const course = findCourse(courseId);
+      if (!course) return;
+
+      if (confirm(`Excluir o curso "${course.title}" e todo o seu conteúdo?`)) {
+        const track = appData.tracks.find(t => t.id === currentTrackId);
+        if (track) {
+          track.courses = track.courses.filter(c => c.id !== courseId);
+          saveStore();
+          renderCoursesGrid(track);
+        }
+      }
+    }
+
+    function addModuleInCurrentCoursePrompt() {
+      const course = findCourse(currentCourseId);
+      if (!course) return;
+
+      const title = prompt(`Adicionar Módulo em "${course.title}":\nNome do Módulo:`);
+      if (!title || !title.trim()) return;
+
+      const newMod = {
+        id: "m_" + Date.now(),
+        title: title.trim().toUpperCase(),
+        desc: "",
+        coverImg: "",
+        lessons: []
+      };
+
+      course.modules.push(newMod);
+      saveStore();
+      renderAccordion(course);
+
+      if (confirm(`Módulo criado! Deseja incluir a primeira aula agora?`)) {
+        addLessonInModulePrompt(course.id, newMod.id);
+      }
+    }
+
+    function deleteModuleFromCoursePrompt(courseId, modId) {
+      const course = findCourse(courseId);
+      if (!course) return;
+      const mod = course.modules.find(m => m.id === modId);
+      if (!mod) return;
+
+      if (confirm(`Excluir o módulo "${mod.title}" e suas ${mod.lessons.length} aulas?`)) {
+        course.modules = course.modules.filter(m => m.id !== modId);
+        saveStore();
+        renderAccordion(course);
+      }
+    }
+
+    function addLessonInModulePrompt(courseId, modId) {
+      const course = findCourse(courseId);
+      if (!course) return;
+      const mod = course.modules.find(m => m.id === modId);
+      if (!mod) return;
+
+      const num = (mod.lessons.length + 1).toString().padStart(2, "0");
+      const title = prompt(`Adicionar aula em "${mod.title}":`, `${num}. `);
+      if (!title || !title.trim()) return;
+
+      const newLesson = {
+        id: "l_" + Date.now(),
+        title: title.trim(),
+        materials: [{ title: "Material / Prompt", content: "Insira anotações e prompts aqui." }]
+      };
+
+      mod.lessons.push(newLesson);
+      saveStore();
+      renderAccordion(course);
+      selectLesson(newLesson.id);
+    }
+
+    function deleteLessonById(courseId, modId, lessonId) {
+      const course = findCourse(courseId);
+      if (!course) return;
+      const mod = course.modules.find(m => m.id === modId);
+      if (!mod) return;
+
+      if (confirm(`Deseja excluir esta aula?`)) {
+        mod.lessons = mod.lessons.filter(l => l.id !== lessonId);
+        saveStore();
+        renderAccordion(course);
+        if (currentLessonId === lessonId) openCourse(courseId);
+      }
+    }
+
+    function deleteCurrentLessonPrompt() {
+      if (!currentLessonId) return;
+      const info = findLessonContext(currentLessonId);
+      if (info) deleteLessonById(info.course.id, info.module.id, info.lesson.id);
+    }
+
+    // UTILITÁRIOS
+    function findCourse(courseId) {
+      for (const t of appData.tracks) {
+        for (const c of t.courses) {
+          if (c.id === courseId) return c;
+        }
+      }
+      return null;
+    }
+
+    function findLessonContext(lessonId) {
+      for (const t of appData.tracks) {
+        for (const c of t.courses) {
+          for (const m of c.modules) {
+            for (const l of m.lessons) {
+              if (l.id === lessonId) {
+                return { track: t, course: c, module: m, lesson: l };
+              }
+            }
+          }
+        }
+      }
+      return null;
+    }
+
+    function toggleCurrentLessonDone() {
+      if (!currentLessonId) return;
+      if (completedLessons[currentLessonId]) {
+        delete completedLessons[currentLessonId];
+      } else {
+        completedLessons[currentLessonId] = true;
+      }
+      localStorage.setItem("academypass_completed", JSON.stringify(completedLessons));
+      updateDoneButton(currentLessonId);
+      const course = findCourse(currentCourseId);
+      if (course) renderAccordion(course);
+    }
+
+    function updateDoneButton(lessonId) {
+      const btn = document.getElementById("btnToggleDone");
+      if (completedLessons[lessonId]) {
+        btn.textContent = "Concluída ✓";
+        btn.style.color = "var(--success)";
+        btn.style.borderColor = "var(--success)";
+      } else {
+        btn.textContent = "Marcar como Concluída";
+        btn.style.color = "#fff";
+        btn.style.borderColor = "var(--glass-border)";
+      }
+    }
+
+    function switchClassTab(tabId, ev) {
+      document.querySelectorAll(".tab-item-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-content-area").forEach(p => p.classList.remove("active"));
+
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add("active");
+      if (ev && ev.target) ev.target.classList.add("active");
+    }
+
+    function setSpeed(speed) {
+      document.getElementById("classroomVideoPlayer").playbackRate = speed;
+    }
+
+    function copyText(str) {
+      navigator.clipboard.writeText(str).then(() => alert("Copiado com sucesso!"));
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
