@@ -1216,6 +1216,28 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+
+    /* ============================================================== */
+    /* CONTROLES EXCLUSIVOS DO DESENVOLVEDOR (DEV)                    */
+    /* ============================================================== */
+    body:not(.is-dev) .dev-only {
+      display: none !important;
+    }
+
+    .dev-badge-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(56, 189, 248, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      color: #38bdf8;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
   </style>
 </head>
 <body>
@@ -1481,7 +1503,7 @@
           <div class="section-heading-title">Cursos da trilha</div>
           <div class="section-heading-desc">Passe o mouse no curso para ver opções ou personalizar capa e descrição.</div>
         </div>
-        <button class="btn-tool btn-primary" onclick="addCoursePrompt()">
+        <button class="btn-tool btn-primary dev-only" onclick="addCoursePrompt()">
           + Incluir Novo Curso
         </button>
       </div>
@@ -1501,10 +1523,10 @@
               ← Voltar para Cursos da Trilha
             </button>
             <div style="display:flex; gap:8px;">
-              <button class="btn-tool" onclick="openEditModuleModal(currentCourseId, currentModuleId)">
+              <button class="btn-tool dev-only" onclick="openEditModuleModal(currentCourseId, currentModuleId)">
                 ✏️ Editar Módulo
               </button>
-              <button class="btn-tool btn-danger-pill" onclick="deleteCurrentLessonPrompt()">
+              <button class="btn-tool btn-danger-pill dev-only" onclick="deleteCurrentLessonPrompt()">
                 Excluir Aula
               </button>
               <button class="btn-tool" id="btnToggleDone" onclick="toggleCurrentLessonDone()">
@@ -1573,10 +1595,10 @@
               <div style="font-size:1.05rem; font-weight:800;" id="sidebarCourseName">Image Creator Pro</div>
             </div>
             <div style="display:flex; gap:6px;">
-              <button class="btn-tool" onclick="openEditCourseModal(currentCourseId)" title="Personalizar Curso">
+              <button class="btn-tool dev-only" onclick="openEditCourseModal(currentCourseId)" title="Personalizar Curso">
                 ✏️ Capa
               </button>
-              <button class="btn-tool btn-primary" onclick="addModuleInCurrentCoursePrompt()" title="Incluir Módulo">
+              <button class="btn-tool btn-primary dev-only" onclick="addModuleInCurrentCoursePrompt()" title="Incluir Módulo">
                 + Módulo
               </button>
             </div>
@@ -1865,6 +1887,27 @@
     let completedLessons = JSON.parse(localStorage.getItem("academypass_completed")) || {};
     let currentUser = JSON.parse(localStorage.getItem("academypass_user_v2")) || null;
 
+    // ==========================================
+    // PERMISSÕES DE DESENVOLVEDOR (DEV)
+    // ==========================================
+    const DEV_EMAIL = "eduardomaiadsgn@gmail.com";
+
+    function isDevUser() {
+      return !!(
+        currentUser &&
+        currentUser.email &&
+        currentUser.email.trim().toLowerCase() === DEV_EMAIL.toLowerCase()
+      );
+    }
+
+    function verifyDevAccess(actionName = "esta ação") {
+      if (!isDevUser()) {
+        alert(`Acesso Restrito: Apenas o e-mail do desenvolvedor (${DEV_EMAIL}) tem permissão para ${actionName}.`);
+        return false;
+      }
+      return true;
+    }
+
     let currentTrackId = "create";
     let currentCourseId = "c_img_pro";
     let currentModuleId = "m_img_create";
@@ -1938,6 +1981,7 @@
         updateUserUI(currentUser);
       } else {
         overlay.style.display = "flex";
+        document.body.classList.remove("is-dev");
       }
     }
 
@@ -2053,16 +2097,53 @@
       if (confirm("Deseja sair da sua conta e voltar para a tela de login?")) {
         localStorage.removeItem("academypass_user_v2");
         currentUser = null;
+        document.body.classList.remove("is-dev");
+        const devBadge = document.getElementById("topbarDevBadge");
+        if (devBadge) devBadge.remove();
+        renderHomeTracks();
         document.getElementById("loginScreenOverlay").style.display = "flex";
       }
     }
 
     function updateUserUI(user) {
+      const isDev = isDevUser();
+      if (isDev) {
+        document.body.classList.add("is-dev");
+      } else {
+        document.body.classList.remove("is-dev");
+      }
+
       const inits = user.initials || "MH";
       document.getElementById("sidebarAvatarPill").textContent = inits;
       document.getElementById("topbarAvatarPill").textContent = inits;
-      document.getElementById("sidebarAvatarPill").title = `${user.email} (Clique para sair)`;
-      document.getElementById("topbarAvatarPill").title = `${user.email} (Clique para sair)`;
+      
+      const roleText = isDev ? " [DEV - Administrador]" : " [Aluno]";
+      document.getElementById("sidebarAvatarPill").title = `${user.email}${roleText} (Clique para sair)`;
+      document.getElementById("topbarAvatarPill").title = `${user.email}${roleText} (Clique para sair)`;
+
+      let devBadge = document.getElementById("topbarDevBadge");
+      if (isDev) {
+        if (!devBadge) {
+          devBadge = document.createElement("span");
+          devBadge.id = "topbarDevBadge";
+          devBadge.className = "dev-badge-indicator";
+          devBadge.innerHTML = "⚡ DEV";
+          const topbarRight = document.querySelector(".app-topbar > div:last-child");
+          if (topbarRight) topbarRight.insertBefore(devBadge, topbarRight.firstChild);
+        }
+      } else if (devBadge) {
+        devBadge.remove();
+      }
+
+      renderHomeTracks();
+      if (currentTrackId && document.getElementById("viewTrack").classList.contains("active")) {
+        const track = appData.tracks.find(t => t.id === currentTrackId);
+        if (track) renderCoursesGrid(track);
+      }
+      if (currentCourseId && document.getElementById("viewLesson").classList.contains("active")) {
+        const course = findCourse(currentCourseId);
+        if (course) renderAccordion(course);
+      }
     }
 
     function togglePasswordVisibility() {
@@ -2095,9 +2176,10 @@
 
         el.innerHTML = `
           <div class="track-card-overlay"></div>
-          <button class="btn-edit-home-cover" title="Editar Capa deste Card" onclick="event.stopPropagation(); openEditHomeCardModal('${card.id}')">
+          ${isDevUser() ? `
+          <button class="btn-edit-home-cover dev-only" title="Editar Capa deste Card" onclick="event.stopPropagation(); openEditHomeCardModal('${card.id}')">
             ✏️ Editar Capa
-          </button>
+          </button>` : ''}
           <div class="track-card-content">
             <div>
               <div class="track-category">
@@ -2129,9 +2211,10 @@
         }
 
         mini.innerHTML = `
-          <button class="btn-edit-home-cover" title="Editar Capa deste Card" onclick="event.stopPropagation(); openEditHomeCardModal('${card.id}')">
+          ${isDevUser() ? `
+          <button class="btn-edit-home-cover dev-only" title="Editar Capa deste Card" onclick="event.stopPropagation(); openEditHomeCardModal('${card.id}')">
             ✏️
-          </button>
+          </button>` : ''}
           <div>
             <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">${escapeHtml(card.category || '')}</div>
             <div style="font-size:1.15rem; font-weight:800; margin-top:4px;">${escapeHtml(card.title)}</div>
@@ -2242,7 +2325,7 @@
         grid.innerHTML = `
           <div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: var(--text-muted);">
             Nenhum curso cadastrado nesta trilha ainda.<br>
-            <button class="btn-tool btn-primary" style="margin-top:14px;" onclick="addCoursePrompt()">+ Incluir Primeiro Curso</button>
+            ${isDevUser() ? '<button class="btn-tool btn-primary dev-only" style="margin-top:14px;" onclick="addCoursePrompt()">+ Incluir Primeiro Curso</button>' : ''}
           </div>
         `;
         return;
@@ -2279,10 +2362,11 @@
             </div>
             <div class="course-actions-row">
               <span style="font-size:0.78rem; color:var(--text-muted);">${courseCompletedCount}/${courseLessonsCount} aulas</span>
+              ${isDevUser() ? `
               <div style="display:flex; gap:6px;">
-                <button class="btn-tool" style="padding:3px 8px; font-size:0.75rem;" title="Personalizar Capa e Descrição" onclick="event.stopPropagation(); openEditCourseModal('${course.id}')">✏️ Capa</button>
-                <button class="btn-tool btn-danger-pill" style="padding:3px 7px; font-size:0.75rem;" title="Excluir Curso" onclick="event.stopPropagation(); deleteCoursePrompt('${course.id}')">🗑️</button>
-              </div>
+                <button class="btn-tool dev-only" style="padding:3px 8px; font-size:0.75rem;" title="Personalizar Capa e Descrição" onclick="event.stopPropagation(); openEditCourseModal('${course.id}')">✏️ Capa</button>
+                <button class="btn-tool btn-danger-pill dev-only" style="padding:3px 7px; font-size:0.75rem;" title="Excluir Curso" onclick="event.stopPropagation(); deleteCoursePrompt('${course.id}')">🗑️</button>
+              </div>` : ''}
             </div>
           </div>
         `;
@@ -2302,7 +2386,7 @@
       if (course.modules.length === 0) {
         container.innerHTML = `
           <div style="padding:24px; text-align:center; color:var(--text-muted); font-size:0.85rem;">
-            Nenhum módulo cadastrado.<br>Clique em <strong>+ Módulo</strong> acima.
+            ${isDevUser() ? 'Nenhum módulo cadastrado.<br>Clique em <strong>+ Módulo</strong> acima.' : 'Nenhum módulo cadastrado para este curso.'}
           </div>
         `;
         return;
@@ -2340,9 +2424,11 @@
           </div>
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-size:0.75rem; color:var(--text-muted);">${modDone}/${mod.lessons.length}</span>
-            <button class="btn-tool" style="padding:2px 6px; font-size:0.72rem;" title="Editar Módulo" onclick="event.stopPropagation(); openEditModuleModal('${course.id}', '${mod.id}')">✏️</button>
-            <button class="btn-tool" style="padding:2px 6px; font-size:0.72rem;" title="Incluir Aula" onclick="event.stopPropagation(); addLessonInModulePrompt('${course.id}', '${mod.id}')">+ Aula</button>
-            <button class="btn-tool btn-danger-pill" style="padding:2px 6px; font-size:0.72rem;" title="Excluir Módulo" onclick="event.stopPropagation(); deleteModuleFromCoursePrompt('${course.id}', '${mod.id}')">🗑️</button>
+            ${isDevUser() ? `
+            <button class="btn-tool dev-only" style="padding:2px 6px; font-size:0.72rem;" title="Editar Módulo" onclick="event.stopPropagation(); openEditModuleModal('${course.id}', '${mod.id}')">✏️</button>
+            <button class="btn-tool dev-only" style="padding:2px 6px; font-size:0.72rem;" title="Incluir Aula" onclick="event.stopPropagation(); addLessonInModulePrompt('${course.id}', '${mod.id}')">+ Aula</button>
+            <button class="btn-tool btn-danger-pill dev-only" style="padding:2px 6px; font-size:0.72rem;" title="Excluir Módulo" onclick="event.stopPropagation(); deleteModuleFromCoursePrompt('${course.id}', '${mod.id}')">🗑️</button>
+            ` : ''}
           </div>
         `;
 
@@ -2360,7 +2446,7 @@
           item.innerHTML = `
             <span style="color:${isDone ? 'var(--success)' : 'var(--text-muted)'}; font-size:0.85rem;">${isDone ? '✓' : '○'}</span>
             <span style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(lesson.title)}</span>
-            <button class="btn-tool btn-danger-pill" style="padding:1px 5px; font-size:0.7rem; opacity:0.6;" title="Excluir Aula" onclick="event.stopPropagation(); deleteLessonById('${course.id}', '${mod.id}', '${lesson.id}')">✕</button>
+            ${isDevUser() ? `<button class="btn-tool btn-danger-pill dev-only" style="padding:1px 5px; font-size:0.7rem; opacity:0.6;" title="Excluir Aula" onclick="event.stopPropagation(); deleteLessonById('${course.id}', '${mod.id}', '${lesson.id}')">✕</button>` : ''}
           `;
 
           item.onclick = () => {
@@ -2444,6 +2530,7 @@
     // MODAL DE PERSONALIZAÇÃO
     // ==========================================
     function openEditHomeCardModal(cardId) {
+      if (!verifyDevAccess("editar capas")) return;
       const card = appData.homeCards.find(c => c.id === cardId);
       if (!card) return;
 
@@ -2467,6 +2554,7 @@
     }
 
     function openEditCourseModal(courseId) {
+      if (!verifyDevAccess("editar capas de cursos")) return;
       const course = findCourse(courseId);
       if (!course) return;
 
@@ -2488,6 +2576,7 @@
     }
 
     function openEditModuleModal(courseId, modId) {
+      if (!verifyDevAccess("editar capas de módulos")) return;
       const course = findCourse(courseId);
       if (!course) return;
       const mod = course.modules.find(m => m.id === modId);
@@ -2534,6 +2623,7 @@
     }
 
     function saveModalChanges() {
+      if (!verifyDevAccess("salvar alterações")) return;
       const type = document.getElementById("editTargetType").value;
       const targetId = document.getElementById("editTargetId").value;
       const title = document.getElementById("editTitleInput").value.trim();
@@ -2583,6 +2673,7 @@
 
     // CRIAÇÃO E EXCLUSÃO
     function addCoursePrompt() {
+      if (!verifyDevAccess("incluir cursos")) return;
       const title = prompt("Digite o nome do novo Curso:");
       if (!title || !title.trim()) return;
 
@@ -2612,6 +2703,7 @@
     }
 
     function deleteCoursePrompt(courseId) {
+      if (!verifyDevAccess("excluir cursos")) return;
       const course = findCourse(courseId);
       if (!course) return;
 
@@ -2626,6 +2718,7 @@
     }
 
     function addModuleInCurrentCoursePrompt() {
+      if (!verifyDevAccess("incluir módulos")) return;
       const course = findCourse(currentCourseId);
       if (!course) return;
 
@@ -2650,6 +2743,7 @@
     }
 
     function deleteModuleFromCoursePrompt(courseId, modId) {
+      if (!verifyDevAccess("excluir módulos")) return;
       const course = findCourse(courseId);
       if (!course) return;
       const mod = course.modules.find(m => m.id === modId);
@@ -2663,6 +2757,7 @@
     }
 
     function addLessonInModulePrompt(courseId, modId) {
+      if (!verifyDevAccess("incluir aulas")) return;
       const course = findCourse(courseId);
       if (!course) return;
       const mod = course.modules.find(m => m.id === modId);
@@ -2685,6 +2780,7 @@
     }
 
     function deleteLessonById(courseId, modId, lessonId) {
+      if (!verifyDevAccess("excluir aulas")) return;
       const course = findCourse(courseId);
       if (!course) return;
       const mod = course.modules.find(m => m.id === modId);
@@ -2699,6 +2795,7 @@
     }
 
     function deleteCurrentLessonPrompt() {
+      if (!verifyDevAccess("excluir aulas")) return;
       if (!currentLessonId) return;
       const info = findLessonContext(currentLessonId);
       if (info) deleteLessonById(info.course.id, info.module.id, info.lesson.id);
