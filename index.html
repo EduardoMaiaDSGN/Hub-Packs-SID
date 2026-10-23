@@ -1237,6 +1237,198 @@
       border-radius: 999px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
+      user-select: none;
+    }
+
+    /* LOGO TOPBAR */
+    .topbar-brand-logo {
+      height: 32px;
+      width: auto;
+      max-width: 220px;
+      object-fit: contain;
+      cursor: pointer;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .topbar-brand-logo:hover {
+      transform: scale(1.02);
+      opacity: 0.95;
+    }
+    .topbar-divider {
+      width: 1px;
+      height: 22px;
+      background: var(--glass-border);
+    }
+
+    /* PAINEL DEV & GERENCIADOR VISUAL */
+    .dev-panel-container {
+      padding: 32px 36px 80px 36px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .dev-header-banner {
+      border-radius: var(--radius-xl);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(99, 102, 241, 0.08) 50%, rgba(168, 85, 247, 0.06) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), var(--glass-specular);
+    }
+    .dev-header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .dev-header-title-box h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .dev-header-title-box p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 6px;
+      max-width: 680px;
+      line-height: 1.45;
+    }
+    .dev-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .dev-filter-tabs-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 22px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+    .dev-filter-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .dev-filter-pill:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .dev-filter-pill.active {
+      background: rgba(56, 189, 248, 0.18);
+      color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+    }
+    .dev-images-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 22px;
+    }
+    .dev-image-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+    }
+    .dev-image-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(56, 189, 248, 0.35);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), var(--glass-specular);
+    }
+    .dev-card-preview-thumb {
+      height: 180px;
+      border-radius: var(--radius-md);
+      background-size: cover;
+      background-position: center;
+      border: 1px solid var(--glass-border);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding: 12px;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .dev-card-preview-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(10,13,22,0.85) 100%);
+    }
+    .dev-card-badge-scope {
+      position: relative;
+      z-index: 2;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #38bdf8;
+      text-transform: uppercase;
+    }
+    .dev-card-info h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .dev-card-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .dev-card-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .dev-input-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dev-actions-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .dev-save-msg {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--success);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .dev-save-msg.visible {
+      opacity: 1;
     }
   </style>
 </head>
@@ -1410,6 +1602,13 @@
           <polygon points="5 3 19 12 5 21 5 3"></polygon>
         </svg>
       </button>
+
+      <!-- BOTÃO DA ABA DE DEV (VISÍVEL APENAS PARA O DESENVOLVEDOR) -->
+      <button class="nav-icon-btn dev-only" id="navBtnDev" onclick="openDevPanelView()" title="Painel DEV - Gerenciador Visual & Capas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+        </svg>
+      </button>
     </div>
 
     <div class="user-avatar-pill" id="sidebarAvatarPill" onclick="logoutUser()" title="Clique para desconectar">
@@ -1422,8 +1621,12 @@
     
     <!-- HEADER TOPO -->
     <header class="app-topbar">
-      <div class="breadcrumb-title" id="topBreadcrumb">
-        <span>Home</span>
+      <div style="display:flex; align-items:center; gap:16px;">
+        <img id="topbarBrandLogoImg" src="Acessets/Hub-Pack's.png" onerror="if(!this.dataset.tried){this.dataset.tried='1';this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAScAAAAwCAYAAABT/rzWAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAEmRJREFUeAHtXQtS3MYWvS0JA4ZnD+WEmCRVESvIsIIMKwiswHgFwAqMVwBeAeMVgFfAZAVMVoBS9VzYxDa8+APxjNTvHk3LHjTd+o1gGKNTJcTo/z26fe6nBY0QR0dHNca6lHKNB5cnnQkhWt1u9+n8/HybKlSocGshaEQ4Pj5279y5c8D/urr5lmVtzc3NPaUKFSrcSoyMnN69e7fH1tJK0jJBECx///33LapQocKtg0UjwN9//91IIybAtu0nVKFChVuJkZATo5FlISawOlWoUOFWYlTklBU1qlChwq2EE/0Dz9nMzIzL3rIae8u8hYUFj64OZxmX86hChQq3EqHl9ObNm5V79+4dscZzyF6yA/aiHb19+3abrgiO4zQpG0G1qEKFCrcSFsRptpb2aLAJtcEEtUtXgLm5ORBTWpiAx0RZhRJUqHBL4cAjxsKzaf7a6ekp4o3+opLB+0TApWl2m4lplffr0S3Gu3fvDnTT+dq1Hzx4sEkVKowR+LmFAXTJCGIO8DCdx2exZV2H/zSSNtjpdJZ51KQSgQBMPpgwTACxTExEdT6OX/nn/3i8nyW2Cdvg5qGrm5dHM4PlaJo36hgr071J+JhUUDh+zx5hYbsLs36Trgj//UB1m6jnURaWSzLwSLJO2iVvYe7m6aUqC8M1zPZAFHS1cKl3vX7n4QX1pB2PhwM+tuWIoBSJ7TpqAaNXjIkjq3idGZOTk7u4UExMTxUBtCgnmJjW+Ni0cVBsDT6mjIQKjc0wy+NhkSoMheNTcsWkfZR1eSHpTFrUlj49L0os4T5tO7yvx+8db+E/3RaVBJCecOwnIqC6FLH3Rti9MY9efZJtGYhn1PFbOqI6+YD17YOBbfBzd/6vv7Q4l6zJnnyy1qUUW5r1Q8iAHmuuH2SahmGTV/6sM/kgJa2Nd5//b/bN+pOHDR621G/EQHqWWsEIftFLzXHjZiKakQjCbDExbVGFbxuO8UutRfiySSYAi3ZffbKPjj/Ya5QT1pT1KPpf2HKdSgBI6dW5fRCSHh+fiRS+QtRxDkzMB6/PBz+iPtl1wzbcKcdJjO/D9gISO+ZjkB7Zfkszo6FfnprXYDUlwePhl77fv/HwF8gJVoaRpZlEttGEohKA7bC1tIWDUdZNhQpJcPGC617uJLBFsdb3cwWWFA0BtlK2I1Ki/HBh4YREO+RxALgW2J55Cdk+nw6WFqYvW2spAc3PafR4royWBv//ByZYEJ25abMES6ZvwTM0uXgMsWoFCbrDEhTiqFSiLy7U09sudlfIDryMLz/aqelOgLK03EvrT1gbVABHp1R79ck5ZCul0PoxoHl7gG1SQbz+aO0mERM35Z4zMS0vCq2x4RpWg9bUohFDHQMs3kbU5AvjnEAU3333HYTpuc+fPy+yJ2gOTS4eLzKRPONFXBX7VPgm1Wo1fP1cHpq8ryZVqJADjqDdLC82W1oDVpZtiUdFSGF60uGPaZkpVPIsTUvSISTJc+hTlyzCSwhY32KNac1ATEDDMP0mhesgKsCLfjj9c1T80aWTYyJBvBNWwE3f5v9/SXJjRxbWxcXF2eLiYritN2/erLElBmIb69glnNvExERDN4/Pr51WgwrBrmRwPgxD2PA4wuPJ//7KXx0X0xBuwMMf79+/b0X3YRS46FJ72pJtGtBHhBtqI/1TJNX4BdQLvHzdpu7AAgplAS10VlPWdePoNZ+yEJP8YnlIWEeBrOvPIWxuLVNO9BwKzh4lHAtbU09/nO1upWzqV800PBf7lAEgyCmH6sJ2fhdC1mR0nSW2ITxfdv/4aSbbtvh6bel+90/H/06WjTEZ7bCQvc8vIJplIKsVtrCWI3e9qs0E4XGN1MvHvxGngxcE7dlQlBz32CUQE180bWAqTwfpJpITL4Ooe9cwu0k5geuuPJ+NaFpfmAGOdePevXse37vmqGpj9SyFYCn6jYd8ZhKCLm08vBsMeIhe/mOvODbt6sReS4Qu6C3TvnRW09d1xTrveyeL5QJPWpCo6+BeUrPjW89+nu0M3HP2ELKgH2zzQopQpJfQ3DJCeTphvbmmZUBMCzOpxAToyG0/Hl8UB+7X3SlrnQKx0bsnkgYjWSTZwt549QlNRNn8YToo5VnLnPirtKllRTZhoThYAvzgP+L/D6nnCrz0QKkvT/hCQsPibZTq+bvNODk5qeO6p8WpUe/ab/GH4rAsx0ZR4GWbnrQTNZyf7vn7gSStZS7ZA2ZqnoVxTWbi77Oe0hFY9l7SfBlYj3+Y9h/riAlA6MLDmWAJxME/W1LkJ6aTU7ZSQmJKOCc+jizEpN5D3XVLJJHofiWFLMSgxH/rcBhtLUKuqgRKm1pTYjliFfb4/yZlqB7A3rlfqUIpQNONr6cu5cgIPKBsZe3xx2Toh6YIvloB6R6ri45vbB7UanRfNx2xR5QCWE9py6SRHG9lc2G206QMAHE8vOsvxz1naRB2UJd3zNdKSHkmfbGc9TgM22mlhQ9kvV+aNevTU8kEnwWFSqZALEdkd5514PWD9kQVyoBLBR4aEBTft5EU8LPu2JFDpHQgUjuLmx/WU1rclGXZj0zz0JR7eLezQ1cOsZ0UwyRksJwzsLShmZYYPmDS7zKD78fxR2uLhkAmzakscLMQN75JVwzWhu6Puglzg7HBAvqL60zNgTXCL9ta1uWhcZgydOYEDeR5Tgh7PWtCj2WF1lPTNJ+Ps2GaF5A/YmeO9NBEnJ/NnRrjUeycYxHaA2DtaN1UxZub5c9Y+G8LknBg1Jm0tYSuLNUtKojC5MQnt0I5AX0EzQrlFbwEaCjcVFnn7TaoF3sB0/65btk0sHWww3rMNXzhRg8Vn4YANlwzfG1XePwoaR1cZ+LGVK61QENj6dxTwwgevtLxfE5uba01lmM1mtDYjDNCc1FE/GFqTAxC4Tl3DoEa53loXQSlwz7zts8Kxc9YipyDHxP8r8LX8T82FHAMxjTuY4/OhDCByzy0FI1XOssGMZyKqRd+L7fODo6uuTehrCuvGA15W1y1QuzwWS2VISgbgNUbuJWbPI+Kkkoz6qrWy/p0EUL10jwG8+mRfNngkvspmIN8uPg3NRZ3VxKL6C4sJmzQ6k3DCF6kVnw5XORkQ+PJPGhl6YQh5RfWiSBKzhQgGjgHa2quP1u+ka4qK4k3Da23WARDR2b0dhhlQLwIdoep4gLR5Rt1utz8hsMJXNE25iXBccNPtcUJSM6qd4kVs0RUD1hB/b0oQ4aW3MBs6X75uO8lqCsSOdHzWZzRWG/QQzRc9kHbNJj3ENRFDHIj6vpgJNhavcf8It3j9cdDqBASJJ6xHncFp0R+WAe8klYzCNcQR5Ef54alQBMQ/1VUPLEmxP9CpSknc/NaQFswKTSklLaFO14Hu8CJ46J0Sgw4YJbJrIMNKBGETSOgJWFlPNxz8jkm/OcWCfyj6X+eeLX3MHppqyHecnrRPEbUO0Vt5OEtHYXLKUWq3Hy2EIjx48GCJBwGPnyKrJIzE9X3D4WUJZuUm9AvTvCiS/KYDxBR6p2Jai7KaGrp1ZCC+ELfsCj2JK+upf5IlfOPzzEL6L3SNQDqKkCIs/YLBsexDNIN52LsqMuiH5VvpxQxlGOj7BMf3+qN9ysNumcdWuFkHveLt27e48VlrjQ+kruDrzs0PShFwi1hoTdVcTIUp4vsmA+J3luWSon95Xn+8EJZr0fDwqFy0Ait4rBWBJ+wGaS3uy80/WFD8hW/pQg0sS+K5a32Z4BCKxWkh5dUTwtd99dJRmDz3hS3jTfMVJoMVbnY1g8/+06sqajc/22m//MdeNUXrDxxzb5k1PrY1RIrLf/3lYY9tKM0JaS0sZtfTvEOMM1PqCgiK9adWQtXHZ5QTbDH8MT8/38yy7FXVSb9KCEP+WRyq/GmW7eEDkDvva3gMkixrGm2fxF/Cp/0kL48pVUVK63lcVof1xC95Y2BZ1qtY/N2MtBOQoElrYbjDeJ5yIegRZkisH5xnZA3WpMKxi0m7cXw6PAmYgGh91gzbFNhbpnABA8KA22GPbWhBnB9smWGZdlLqCmpK8Ys04F1S3qgmjQGyEkZJcLMsxB8EY1Q+X9u/aMTQ5dZlQVKAIJPWb6/P7dgHR5cP1kM8ITgg+YIJUvsiCjtAK6F04TcJD2e7G+wJ+83g2mcSsPb6cxfLRs9q9deYpLbItxuWRb/LsFKDcFNWVRkBfqF7DAzVqaaK+MbgsbWCmlAgmWc8NHnaJjQliLKwipLKrcCiUuVZVlVqTLjuDayUmaBJWInpOSoo1KVyUEuqfd4H4zJpFVBvMkxWk0CGfViwjNbig2lbKiH464clsJpk3nP95JOTq8u0MnLMpBWsCml69vIfUxGApFD294e7/io+KlZgLbF7c9PkcFBw47peHhS2nPo7KUBCMJOLRxp96PT0FB46JAY/4XX2kzoeYLF8nzKWcBgFmDBRwVM7DwSMa2I6v6mpqUe8PpUFvua7STFgKIfM+3NN6+NcaAyRZDUFwt8UZNfyVKyMl1NJ0qjCfZDcYFHaZU1lM6nJEuYSTtm7TCp1bt4sDdO8ATEcf6BNblrtmo7p5Nxuz0/7ac6lTHj5D62whaQl1YXZXqT5fC/pGcMOKknYDmlz6djLCo98iwqgsOWEUh30tdqAZ1pOzYM1VFPrjC0mJia8pPmmiqGo3KDKE5cJXPuBSgOoOMr7207Zn5dWe+qmQtgG7UNFcBu9cwmIW08ZtrES1gZX3qloXYzDWuNsyVh37MOw1jhc76H+kt1q9kV3MNARnRWgwwQD2DrcKaMMMGA79iNhMbFqBp0lBG1Kpx+G27LFfSqIQuSUt5MCCOdZmnc3HbBSUmKHwoqhLPDvcbNrC70mo+85VbnhKhDt7xD7xL7Qc7Mq7GcEyiTTGCJ0UxssmohQYPmg5xHKARkrpxKK3glEoBAGgMKNHsb8sJsf416vL3IjJqq7WQmKm6ZnP8/qPdTnne4WGeILIxIsoxnJzTWjp5sdC7vx82Cr7ZFJgwoCWVjbzE1ORTsp6OtI4ck4J+XyuaeazgguVd1WbWSotzQ0ooBWta+0h9Mb1zLJCRUDLnn2YGVI4bOGSc97LzO+6r0BcVO6DcQ9zhCiqVigsQnZaogLs6wBr2Ky/kTu3Tv20PrTeSdoJu0DXX2hZhOCMHl8FMiEZP7AalFBGMkJgmv05ccAi0cVOCvUScG30rzDi30DxOS8wa9fwPdtLHsKNqeqICHWHzinUMCd8deQVgEBNxqCwFo17MKNl1M5/xwsl0tQktIqcaZVPsB5+cJs+eIaMWEM1TrBMSbtowehytQI17yMHKrPwAFygmYBMlJ5WRt93bVss6UEYdulgp0U9Dfv0OyhMQWfAx7wXAShIuE9KgFIHRIFesyAPqicDmMHXaoKrCArCFbzZOqHL4sppSWmZ+ElDXPG0pt4WdBCl01JC4SdFGQ4lx/vBjvJxyS2h/GSRftQlTwLwZRylAcD5HT//v29tKZI1uhrHaLmHZo9sMRgoSEkIaNr/EYg6k6LMpINwiuQtkMlAgSZIfUnArr62hzXTkwNVhOix5fmZ/NnEORJaQHQxOvpWNki8/vRa0Zam6iImZy8K9s/znYzWzyh/pRwPNCGhtWfUG2g2HnLNu7NsCVmLpETSCKLRhKFEBRBX/MOdYUOYaEhhQRjbjoeqR5Kbjz6+vsD2epekDM4DBCvhR5sqGRAnAfhJew/PAZYS3yci0xMOzQKOKYHNPsDD6spfMnZYkShM5SoLVL+NkKi4G0FDe06rGOhWeh3aRXxVCbtqg8txAF9CpuTydUzsb28PbPAqrMCe9V8HVNjozMhOu+QpERqSEDojODlhyYmQPT/gMdHVQpIhQqSbFEBqK6MjMXNEIw5bs0P1EdSZUiIx97U1NTZddahivYfRap3Op12UkxZheFx8mGi3gkCtz8myCar/XGm46WVOIG+JSy5Lnv9zTVpjIDz9qWssVnIzjE6m7AsL8s558UlcmLLBZpSPcuKqplQ6GsMC4mSo6XDiHGqUOEbxZGk2uKIakSNC+KaU+Y2qkw3a7WAzkTpaRyuWq5ChW8SFTGl4xI55RG607qVSVgvEwFecyJthQoVbhji5NSkbPCK6k2O42TyrhS1zCpUqPBt4BI5gXBUVYAkIAygcPxChhQQYGxzvypUqFAOBuKcVIeZJoIKuyTPExmug4p18gyzhyK/ChUqfBsQphnsmnbRjRM3r1w1qVVmR4zYPm97uz90AXFByNcblvwqVKgw/hA0YiA+5+LionbdcUEVKlS42fg/0eeOJQwtqTEAAAAASUVORK5CYII=';}" alt="Hub-Pack's" class="topbar-brand-logo" onclick="navigateToHome()" title="Studio Insight - Hub-Pack's">
+        <div class="topbar-divider"></div>
+        <div class="breadcrumb-title" id="topBreadcrumb">
+          <span>Home</span>
+        </div>
       </div>
 
       <div style="display:flex; align-items:center; gap:16px;">
@@ -1669,11 +1872,75 @@
         </div>
       </div>
     </div>
+
+    <!-- ============================================================== -->
+    <!-- VIEW 4: PAINEL / ABA DE DESENVOLVEDOR (DEV)                    -->
+    <!-- ============================================================== -->
+    <div class="view-container" id="viewDevPanel">
+      <div class="dev-panel-container">
+        
+        <!-- HEADER DO PAINEL DEV -->
+        <div class="dev-header-banner apple-glass">
+          <div class="dev-header-content">
+            <div class="dev-header-title-box">
+              <h1>
+                <span>🛠️</span> Painel Visual DEV
+                <span class="dev-badge-indicator">Acesso Máster</span>
+              </h1>
+              <p>
+                Gerenciamento visual completo do Studio Insight - Hub-Pack's. Altere as capas da página de login, cards da home, cursos, módulos e logo da barra superior com prévia em tempo real.
+              </p>
+            </div>
+            
+            <div class="dev-header-actions">
+              <button class="btn-tool" onclick="previewLoginScreenFromDev()" title="Visualizar Tela de Login com a capa atual">
+                👁️ Prévia do Login
+              </button>
+              <button class="btn-tool" onclick="exportDataJson()" title="Baixar backup dos dados e capas em JSON">
+                💾 Exportar Backup (JSON)
+              </button>
+              <button class="btn-tool btn-primary" onclick="triggerImportJson()" title="Importar arquivo de backup">
+                📥 Importar Backup
+              </button>
+              <input type="file" id="importJsonFileInput" accept="application/json" style="display:none;" onchange="handleImportJson(event)">
+            </div>
+          </div>
+        </div>
+
+        <!-- FILTROS DE CATEGORIA DE IMAGENS -->
+        <div class="dev-filter-tabs-strip">
+          <button class="dev-filter-pill active" id="filterBtnAll" onclick="filterDevImages('all', this)">
+            ✨ Todas as Imagens (<span id="devCountAll">0</span>)
+          </button>
+          <button class="dev-filter-pill" id="filterBtnLogin" onclick="filterDevImages('login', this)">
+            🔐 Tela de Login (<span id="devCountLogin">1</span>)
+          </button>
+          <button class="dev-filter-pill" id="filterBtnHome" onclick="filterDevImages('home', this)">
+            🏠 Cards da Home (<span id="devCountHome">0</span>)
+          </button>
+          <button class="dev-filter-pill" id="filterBtnCourse" onclick="filterDevImages('course', this)">
+            📖 Cursos (<span id="devCountCourses">0</span>)
+          </button>
+          <button class="dev-filter-pill" id="filterBtnModule" onclick="filterDevImages('module', this)">
+            📁 Módulos (<span id="devCountModules">0</span>)
+          </button>
+          <button class="dev-filter-pill" id="filterBtnTopbar" onclick="filterDevImages('topbar', this)">
+            ✨ Logo Topbar (<span id="devCountTopbar">1</span>)
+          </button>
+        </div>
+
+        <!-- GRADE COM TODOS OS CARDS DE IMAGENS -->
+        <div class="dev-images-grid" id="devImagesGrid"></div>
+
+      </div>
+    </div>
   </div>
 
   <script>
     // DADOS INICIAIS
     const DEFAULT_STORE = {
+      loginCoverImg: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+      topbarLogoImg: "Acessets/Hub-Pack's.png",
       homeCards: [
         {
           id: "create",
@@ -1884,6 +2151,12 @@
     };
 
     let appData = JSON.parse(localStorage.getItem("academypass_store_v6")) || DEFAULT_STORE;
+    if (!appData.loginCoverImg) {
+      appData.loginCoverImg = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80";
+    }
+    if (!appData.topbarLogoImg) {
+      appData.topbarLogoImg = "Acessets/Hub-Pack's.png";
+    }
     let completedLessons = JSON.parse(localStorage.getItem("academypass_completed")) || {};
     let currentUser = JSON.parse(localStorage.getItem("academypass_user_v2")) || null;
 
@@ -1908,6 +2181,19 @@
       return true;
     }
 
+    function applyGlobalVisuals() {
+      // 1. Imagem lateral do login
+      const loginVisual = document.querySelector(".login-visual-side");
+      if (loginVisual && appData.loginCoverImg) {
+        loginVisual.style.backgroundImage = `url('${appData.loginCoverImg}')`;
+      }
+      // 2. Logo da topbar
+      const topbarLogo = document.getElementById("topbarBrandLogoImg");
+      if (topbarLogo && appData.topbarLogoImg) {
+        topbarLogo.src = appData.topbarLogoImg;
+      }
+    }
+
     let currentTrackId = "create";
     let currentCourseId = "c_img_pro";
     let currentModuleId = "m_img_create";
@@ -1916,6 +2202,7 @@
     let tempCoverBase64 = "";
 
     window.addEventListener("DOMContentLoaded", () => {
+      applyGlobalVisuals();
       checkLoginStatus();
       renderHomeTracks();
       navigateToHome();
@@ -2100,7 +2387,8 @@
         document.body.classList.remove("is-dev");
         const devBadge = document.getElementById("topbarDevBadge");
         if (devBadge) devBadge.remove();
-        renderHomeTracks();
+        navigateToHome();
+        applyGlobalVisuals();
         document.getElementById("loginScreenOverlay").style.display = "flex";
       }
     }
@@ -2127,7 +2415,10 @@
           devBadge = document.createElement("span");
           devBadge.id = "topbarDevBadge";
           devBadge.className = "dev-badge-indicator";
-          devBadge.innerHTML = "⚡ DEV";
+          devBadge.innerHTML = "⚡ Painel DEV";
+          devBadge.style.cursor = "pointer";
+          devBadge.title = "Clique para abrir a Aba de DEV (Gerenciador Visual)";
+          devBadge.onclick = () => openDevPanelView();
           const topbarRight = document.querySelector(".app-topbar > div:last-child");
           if (topbarRight) topbarRight.insertBefore(devBadge, topbarRight.firstChild);
         }
@@ -2135,6 +2426,7 @@
         devBadge.remove();
       }
 
+      applyGlobalVisuals();
       renderHomeTracks();
       if (currentTrackId && document.getElementById("viewTrack").classList.contains("active")) {
         const track = appData.tracks.find(t => t.id === currentTrackId);
@@ -2143,6 +2435,10 @@
       if (currentCourseId && document.getElementById("viewLesson").classList.contains("active")) {
         const course = findCourse(currentCourseId);
         if (course) renderAccordion(course);
+      }
+      if (document.getElementById("viewDevPanel").classList.contains("active")) {
+        if (isDev) renderDevPanel(devCurrentFilter);
+        else navigateToHome();
       }
     }
 
@@ -2872,6 +3168,354 @@
     function escapeHtml(str) {
       if (!str) return "";
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // ==========================================
+    // PAINEL DE CONTROLE DEV (GERENCIADOR DE CAPAS)
+    // ==========================================
+    let devCurrentFilter = "all";
+
+    function openDevPanelView() {
+      if (!isDevUser()) {
+        alert("Acesso restrito: Apenas eduardomaiadsgn@gmail.com pode acessar a aba de DEV.");
+        navigateToHome();
+        return;
+      }
+      hideAllViews();
+      document.getElementById("viewDevPanel").classList.add("active");
+      const navBtnDev = document.getElementById("navBtnDev");
+      if (navBtnDev) navBtnDev.classList.add("active");
+
+      document.getElementById("topBreadcrumb").innerHTML = `
+        <span style="cursor:pointer;" onclick="navigateToHome()">Home</span>
+        <span style="color:var(--text-muted);">/</span>
+        <span style="color:var(--accent-blue);">Painel Visual DEV</span>
+      `;
+
+      renderDevPanel(devCurrentFilter);
+    }
+
+    function filterDevImages(category, btnEl) {
+      devCurrentFilter = category;
+      document.querySelectorAll(".dev-filter-pill").forEach(p => p.classList.remove("active"));
+      if (btnEl) btnEl.classList.add("active");
+      renderDevPanel(category);
+    }
+
+    function getAllManageableImages() {
+      const list = [];
+
+      // 1. Tela de Login
+      list.push({
+        scope: "login",
+        scopeLabel: "Tela de Login",
+        id: "loginCover",
+        title: "Banner Lateral da Tela de Login",
+        subtitle: "Imagem exibida no lado direito do formulário de acesso",
+        coverImg: appData.loginCoverImg || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+        defaultImg: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+        category: "login"
+      });
+
+      // 2. Logo Topbar
+      list.push({
+        scope: "topbar",
+        scopeLabel: "Barra Superior",
+        id: "topbarLogo",
+        title: "Logo Oficial da Topbar (Hub-Pack's)",
+        subtitle: "Logo exibida no topo do aplicativo em todas as telas",
+        coverImg: appData.topbarLogoImg || "Acessets/Hub-Pack's.png",
+        defaultImg: "Acessets/Hub-Pack's.png",
+        category: "topbar"
+      });
+
+      // 3. Cards da Home
+      (appData.homeCards || []).forEach(card => {
+        list.push({
+          scope: "homeCard",
+          scopeLabel: "Card da Home",
+          id: card.id,
+          title: `Home: ${card.title}`,
+          subtitle: `Categoria: ${card.category || 'Geral'} • ${card.desc || ''}`,
+          coverImg: card.coverImg || "",
+          defaultImg: card.coverImg || "",
+          category: "home"
+        });
+      });
+
+      // 4. Cursos
+      (appData.tracks || []).forEach(track => {
+        (track.courses || []).forEach(course => {
+          list.push({
+            scope: "course",
+            scopeLabel: `Trilha: ${track.title}`,
+            id: course.id,
+            parentId: track.id,
+            title: `Curso ${course.num || ''}: ${course.title}`,
+            subtitle: course.desc || 'Sem descrição cadastrada.',
+            coverImg: course.coverImg || "",
+            defaultImg: course.coverImg || "",
+            category: "course"
+          });
+
+          // 5. Módulos
+          (course.modules || []).forEach(mod => {
+            list.push({
+              scope: "module",
+              scopeLabel: `Módulo em "${course.title}"`,
+              id: mod.id,
+              parentId: course.id,
+              title: mod.title,
+              subtitle: mod.desc || `${mod.lessons.length} aulas cadastradas.`,
+              coverImg: mod.coverImg || "",
+              defaultImg: mod.coverImg || "",
+              category: "module"
+            });
+          });
+        });
+      });
+
+      return list;
+    }
+
+    function renderDevPanel(filter = "all") {
+      const allImages = getAllManageableImages();
+
+      // Atualiza contadores
+      const cAll = document.getElementById("devCountAll");
+      const cLog = document.getElementById("devCountLogin");
+      const cHom = document.getElementById("devCountHome");
+      const cCou = document.getElementById("devCountCourses");
+      const cMod = document.getElementById("devCountModules");
+      const cTop = document.getElementById("devCountTopbar");
+
+      if (cAll) cAll.textContent = allImages.length;
+      if (cLog) cLog.textContent = allImages.filter(i => i.category === 'login').length;
+      if (cHom) cHom.textContent = allImages.filter(i => i.category === 'home').length;
+      if (cCou) cCou.textContent = allImages.filter(i => i.category === 'course').length;
+      if (cMod) cMod.textContent = allImages.filter(i => i.category === 'module').length;
+      if (cTop) cTop.textContent = allImages.filter(i => i.category === 'topbar').length;
+
+      const filtered = filter === "all" ? allImages : allImages.filter(i => i.category === filter);
+      const grid = document.getElementById("devImagesGrid");
+      if (!grid) return;
+      grid.innerHTML = "";
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:50px; color:var(--text-muted);">Nenhuma imagem encontrada nesta categoria.</div>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "dev-image-card apple-glass";
+        card.id = `dev_card_${item.scope}_${item.id}`;
+
+        const currentImgSrc = item.coverImg || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80";
+
+        card.innerHTML = `
+          <div class="dev-card-preview-thumb" id="dev_thumb_${item.scope}_${item.id}" style="background-image: url('${escapeHtml(currentImgSrc)}')">
+            <div class="dev-card-preview-overlay"></div>
+            <span class="dev-card-badge-scope">${escapeHtml(item.scopeLabel)}</span>
+          </div>
+
+          <div class="dev-card-info">
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.subtitle)}</p>
+          </div>
+
+          <div class="dev-card-inputs">
+            <label class="dev-input-label">URL da Imagem:</label>
+            <input type="text" class="form-input" id="dev_input_${item.scope}_${item.id}" value="${escapeHtml(item.coverImg || '')}" placeholder="Cole a URL direta da imagem..." oninput="handleDevUrlInput('${item.scope}', '${item.id}', this.value)">
+            
+            <div style="display:flex; gap:8px; align-items:center; margin-top:4px;">
+              <label class="btn-tool" style="cursor:pointer; flex:1; justify-content:center; padding:7px 10px; font-size:0.78rem;">
+                📁 Carregar do PC
+                <input type="file" accept="image/*" style="display:none;" onchange="handleDevLocalUpload('${item.scope}', '${item.id}', '${item.parentId || ''}', event)">
+              </label>
+              ${item.coverImg ? `<button type="button" class="btn-tool btn-danger-pill" style="padding:7px 10px; font-size:0.78rem;" title="Limpar Capa" onclick="clearDevImage('${item.scope}', '${item.id}', '${item.parentId || ''}')">Limpar</button>` : ''}
+            </div>
+          </div>
+
+          <div class="dev-actions-footer">
+            <span class="dev-save-msg" id="dev_msg_${item.scope}_${item.id}">✓ Salvo!</span>
+            <button type="button" class="btn-tool btn-primary" style="padding:7px 16px; font-size:0.82rem;" onclick="saveDevImageChanges('${item.scope}', '${item.id}', '${item.parentId || ''}')">
+              💾 Salvar
+            </button>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function handleDevUrlInput(scope, id, val) {
+      const thumb = document.getElementById(`dev_thumb_${scope}_${id}`);
+      if (thumb) {
+        if (val.trim()) {
+          thumb.style.backgroundImage = `url('${val.trim()}')`;
+        } else {
+          thumb.style.backgroundImage = `none`;
+        }
+      }
+    }
+
+    function handleDevLocalUpload(scope, id, parentId, event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64 = e.target.result;
+        const input = document.getElementById(`dev_input_${scope}_${id}`);
+        if (input) input.value = base64;
+        const thumb = document.getElementById(`dev_thumb_${scope}_${id}`);
+        if (thumb) thumb.style.backgroundImage = `url('${base64}')`;
+        saveDevImageChanges(scope, id, parentId, base64);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearDevImage(scope, id, parentId) {
+      const input = document.getElementById(`dev_input_${scope}_${id}`);
+      if (input) input.value = "";
+      const thumb = document.getElementById(`dev_thumb_${scope}_${id}`);
+      if (thumb) thumb.style.backgroundImage = "none";
+      saveDevImageChanges(scope, id, parentId, "");
+    }
+
+    function saveDevImageChanges(scope, id, parentId, overrideVal) {
+      if (!verifyDevAccess("salvar alterações visuais")) return;
+
+      let val = overrideVal;
+      if (val === undefined) {
+        const input = document.getElementById(`dev_input_${scope}_${id}`);
+        val = input ? input.value.trim() : "";
+      }
+
+      if (scope === "login") {
+        appData.loginCoverImg = val;
+        saveStore();
+        applyGlobalVisuals();
+      } else if (scope === "topbar") {
+        appData.topbarLogoImg = val || "Acessets/Hub-Pack's.png";
+        saveStore();
+        applyGlobalVisuals();
+      } else if (scope === "homeCard") {
+        const card = appData.homeCards.find(c => c.id === id);
+        if (card) {
+          card.coverImg = val;
+          saveStore();
+          renderHomeTracks();
+        }
+      } else if (scope === "course") {
+        const course = findCourse(id);
+        if (course) {
+          course.coverImg = val;
+          saveStore();
+        }
+      } else if (scope === "module") {
+        const course = findCourse(parentId);
+        if (course) {
+          const mod = course.modules.find(m => m.id === id);
+          if (mod) {
+            mod.coverImg = val;
+            saveStore();
+          }
+        }
+      }
+
+      // Feedback visual no card
+      const msg = document.getElementById(`dev_msg_${scope}_${id}`);
+      if (msg) {
+        msg.classList.add("visible");
+        setTimeout(() => msg.classList.remove("visible"), 2500);
+      }
+    }
+
+    function previewLoginScreenFromDev() {
+      const overlay = document.getElementById("loginScreenOverlay");
+      overlay.style.display = "flex";
+      overlay.style.opacity = "1";
+      
+      let previewBanner = document.getElementById("devPreviewLoginBanner");
+      if (!previewBanner) {
+        previewBanner = document.createElement("div");
+        previewBanner.id = "devPreviewLoginBanner";
+        previewBanner.style.position = "fixed";
+        previewBanner.style.top = "18px";
+        previewBanner.style.left = "50%";
+        previewBanner.style.transform = "translateX(-50%)";
+        previewBanner.style.background = "rgba(10, 13, 20, 0.92)";
+        previewBanner.style.border = "1px solid rgba(56, 189, 248, 0.5)";
+        previewBanner.style.color = "#38bdf8";
+        previewBanner.style.padding = "8px 20px";
+        previewBanner.style.borderRadius = "999px";
+        previewBanner.style.fontSize = "0.85rem";
+        previewBanner.style.fontWeight = "700";
+        previewBanner.style.zIndex = "400";
+        previewBanner.style.display = "flex";
+        previewBanner.style.alignItems = "center";
+        previewBanner.style.gap = "14px";
+        previewBanner.style.boxShadow = "0 10px 30px rgba(0,0,0,0.8)";
+        previewBanner.innerHTML = `
+          <span>👁️ MODO DE PRÉVIA DEV (Visualizando Capa de Login)</span>
+          <button type="button" style="background:#38bdf8; color:#000; border:none; padding:4px 12px; border-radius:999px; font-weight:800; cursor:pointer;" onclick="closeLoginPreviewFromDev()">Fechar Prévia ✕</button>
+        `;
+        document.body.appendChild(previewBanner);
+      } else {
+        previewBanner.style.display = "flex";
+      }
+    }
+
+    function closeLoginPreviewFromDev() {
+      const overlay = document.getElementById("loginScreenOverlay");
+      overlay.style.display = "none";
+      const banner = document.getElementById("devPreviewLoginBanner");
+      if (banner) banner.style.display = "none";
+    }
+
+    function exportDataJson() {
+      if (!verifyDevAccess("exportar backup")) return;
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData, null, 2));
+      const dlAnchor = document.createElement("a");
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", `hub-packs-backup-${new Date().toISOString().slice(0, 10)}.json`);
+      document.body.appendChild(dlAnchor);
+      dlAnchor.click();
+      dlAnchor.remove();
+    }
+
+    function triggerImportJson() {
+      if (!verifyDevAccess("importar backup")) return;
+      document.getElementById("importJsonFileInput").click();
+    }
+
+    function handleImportJson(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed && parsed.tracks && parsed.homeCards) {
+            if (confirm("Deseja realmente restaurar este backup? Todas as capas e cursos atuais serão atualizados.")) {
+              appData = parsed;
+              saveStore();
+              applyGlobalVisuals();
+              renderHomeTracks();
+              renderDevPanel(devCurrentFilter);
+              alert("Backup importado com sucesso!");
+            }
+          } else {
+            alert("Arquivo JSON inválido para a estrutura do Hub-Pack's.");
+          }
+        } catch (err) {
+          alert("Erro ao ler arquivo JSON: " + err.message);
+        }
+      };
+      reader.readAsText(file);
     }
   </script>
 </body>
