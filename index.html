@@ -1248,17 +1248,17 @@
           <div class="input-field-group">
             <label class="input-field-label">Email</label>
             <div class="input-wrapper-login">
-              <input type="email" id="loginEmailInput" class="input-login" value="marianamorgado2@hotmail.com" required>
+              <input type="email" id="loginEmailInput" class="input-login" placeholder="Digite seu e-mail" required autocomplete="off">
             </div>
           </div>
 
           <div class="input-field-group">
             <div class="input-field-label">
               <span>Senha</span>
-              <a href="#" style="color:#64748b; text-decoration:none;" onclick="alert('Como este ambiente roda localmente, você pode definir qualquer senha.'); return false;">Esqueceu?</a>
+              <a href="#" style="color:#64748b; text-decoration:none;" onclick="alert('Digite sua senha de acesso.'); return false;">Esqueceu?</a>
             </div>
             <div class="input-wrapper-login">
-              <input type="password" id="loginPasswordInput" class="input-login" value="••••••••••••" required>
+              <input type="password" id="loginPasswordInput" class="input-login" placeholder="Digite sua senha" required autocomplete="current-password">
               <button type="button" class="btn-toggle-eye" onclick="togglePasswordVisibility()">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
