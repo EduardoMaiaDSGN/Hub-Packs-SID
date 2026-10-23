@@ -2,7 +2,10 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="theme-color" content="#08090d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Studio Insight - Hub-Pack's</title>
   <style>
     :root {
@@ -1438,6 +1441,383 @@
     }
     .dev-save-msg.visible {
       opacity: 1;
+    }
+
+    /* ============================================================== */
+    /* DESIGN TOTALMENTE RESPONSIVO (MOBILE, TABLET, DESKTOP & 4K)    */
+    /* ============================================================== */
+
+    /* 1. Monitores Grandes & Ultrawide (>= 1440px) */
+    @media (min-width: 1440px) {
+      .home-hero-grid {
+        grid-template-columns: repeat(3, 1fr) 260px;
+        gap: 22px;
+      }
+      .courses-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+      }
+      .dev-images-grid {
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      }
+    }
+
+    /* 2. Laptops & Telas Médias (1025px - 1439px) */
+    @media (max-width: 1439px) and (min-width: 1025px) {
+      .home-hero-grid {
+        grid-template-columns: repeat(3, 1fr) 220px;
+        gap: 16px;
+      }
+      .courses-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+      .classroom-sidebar {
+        width: 360px;
+      }
+    }
+
+    /* 3. Tablets no Formato Paisagem e Telas Compactas (769px - 1024px) */
+    @media (max-width: 1024px) {
+      .home-hero-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .mini-track-stack {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .classroom-layout {
+        flex-direction: column;
+        height: auto;
+        overflow-y: auto;
+      }
+      .classroom-main {
+        overflow-y: visible;
+        padding: 20px 24px;
+      }
+      .classroom-sidebar {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        border-left: none;
+        border-top: 1px solid var(--glass-border);
+      }
+      .cinema-player-box {
+        min-height: 360px;
+      }
+      .login-card-container {
+        max-width: 720px;
+        height: 520px;
+      }
+      .login-form-side {
+        padding: 32px 36px;
+      }
+    }
+
+    /* 4. Dispositivos Móveis e Tablets em Retrato (<= 768px) */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column-reverse;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+      }
+
+      /* Barra Lateral vira Barra de Navegação Inferior (Estilo App Mobile) */
+      .icon-sidebar {
+        width: 100% !important;
+        height: 60px !important;
+        min-height: 60px !important;
+        border-right: none !important;
+        border-top: 1px solid var(--glass-border) !important;
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        padding: 0 12px !important;
+        padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+        position: relative !important;
+        z-index: 100 !important;
+        background: rgba(10, 13, 20, 0.94) !important;
+        backdrop-filter: blur(25px) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        flex-shrink: 0 !important;
+      }
+
+      .icon-sidebar .brand-logo {
+        display: none !important;
+      }
+
+      .nav-icon-group {
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        width: 100% !important;
+        gap: 6px !important;
+        margin: 0 !important;
+      }
+
+      .nav-icon-btn {
+        width: 48px !important;
+        height: 44px !important;
+        border-radius: 10px !important;
+      }
+
+      .icon-sidebar #sidebarAvatarPill {
+        display: none !important;
+      }
+
+      /* Viewport Principal */
+      .app-viewport {
+        flex: 1 !important;
+        width: 100% !important;
+        height: calc(100% - 60px) !important;
+        overflow: hidden !important;
+      }
+
+      /* Topbar Mobile */
+      .app-topbar {
+        height: 56px !important;
+        padding: 0 16px !important;
+      }
+
+      .topbar-brand-logo {
+        height: 26px !important;
+        max-width: 130px !important;
+      }
+
+      .topbar-divider {
+        display: none !important;
+      }
+
+      .breadcrumb-title {
+        display: none !important;
+      }
+
+      .search-aura-bar {
+        width: 140px !important;
+        padding: 6px 10px !important;
+      }
+
+      .search-aura-bar input {
+        font-size: 0.78rem !important;
+      }
+
+      .dev-badge-indicator {
+        font-size: 0.65rem !important;
+        padding: 2px 6px !important;
+      }
+
+      /* Views Container */
+      .view-container {
+        padding: 16px 14px 40px 14px !important;
+      }
+
+      /* Home Grid Mobile */
+      .home-hero-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+        margin-bottom: 16px !important;
+      }
+
+      .track-card {
+        min-height: 220px !important;
+        padding: 20px !important;
+        border-radius: var(--radius-lg) !important;
+      }
+
+      .track-title {
+        font-size: 1.6rem !important;
+      }
+
+      .mini-track-stack {
+        grid-column: 1 / -1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 14px !important;
+      }
+
+      .mini-track-card {
+        padding: 18px !important;
+        border-radius: var(--radius-lg) !important;
+      }
+
+      .human-banner {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 16px !important;
+        padding: 20px 16px !important;
+        border-radius: var(--radius-lg) !important;
+      }
+
+      /* Grid de Cursos Mobile */
+      .courses-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+      }
+
+      .course-card {
+        height: auto !important;
+        min-height: 290px !important;
+      }
+
+      .section-header-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+      }
+
+      /* Sala de Aula / Player Mobile */
+      .classroom-layout {
+        flex-direction: column !important;
+        height: auto !important;
+        overflow-y: auto !important;
+      }
+
+      .classroom-main {
+        padding: 14px 12px !important;
+        overflow-y: visible !important;
+      }
+
+      .cinema-player-box {
+        min-height: 210px !important;
+        aspect-ratio: 16 / 9 !important;
+        border-radius: var(--radius-md) !important;
+        margin-bottom: 14px !important;
+      }
+
+      .video-control-strip {
+        padding: 10px 12px !important;
+        gap: 8px !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+      }
+
+      .video-control-strip > div:first-child {
+        justify-content: space-between !important;
+      }
+
+      .video-control-strip > div:last-child {
+        justify-content: center !important;
+        overflow-x: auto !important;
+        padding: 4px 0 !important;
+      }
+
+      .classroom-sidebar {
+        width: 100% !important;
+        height: auto !important;
+        border-left: none !important;
+        border-top: 1px solid var(--glass-border) !important;
+      }
+
+      /* Painel DEV Mobile */
+      .dev-panel-container {
+        padding: 14px 8px 60px 8px !important;
+      }
+
+      .dev-header-banner {
+        padding: 18px 14px !important;
+        border-radius: var(--radius-lg) !important;
+      }
+
+      .dev-header-title-box h1 {
+        font-size: 1.3rem !important;
+      }
+
+      .dev-header-actions {
+        width: 100% !important;
+        justify-content: flex-start !important;
+      }
+
+      .dev-header-actions .btn-tool {
+        flex: 1 !important;
+        min-width: 120px !important;
+        justify-content: center !important;
+        padding: 8px 10px !important;
+        font-size: 0.76rem !important;
+      }
+
+      .dev-filter-tabs-strip {
+        gap: 6px !important;
+        padding-bottom: 8px !important;
+      }
+
+      .dev-filter-pill {
+        padding: 6px 12px !important;
+        font-size: 0.76rem !important;
+      }
+
+      .dev-images-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+
+      .dev-image-card {
+        padding: 14px !important;
+      }
+
+      /* Tela de Login Mobile */
+      #loginScreenOverlay {
+        padding: 12px !important;
+        overflow-y: auto !important;
+      }
+
+      .login-card-container {
+        flex-direction: column !important;
+        height: auto !important;
+        max-height: 94vh !important;
+        overflow-y: auto !important;
+        border-radius: 16px !important;
+      }
+
+      .login-form-side {
+        padding: 24px 20px !important;
+      }
+
+      .login-visual-side {
+        min-height: 140px !important;
+        max-height: 180px !important;
+        padding: 16px 20px !important;
+      }
+
+      .login-title {
+        font-size: 1.45rem !important;
+      }
+
+      /* Modal de Edição Mobile */
+      .modal-window {
+        padding: 20px 16px !important;
+        max-height: 92vh !important;
+        overflow-y: auto !important;
+        border-radius: 16px !important;
+      }
+
+      .google-auth-card {
+        padding: 24px 18px !important;
+        border-radius: 20px !important;
+      }
+    }
+
+    /* 5. Celulares Pequenos (<= 420px) */
+    @media (max-width: 420px) {
+      .search-aura-bar {
+        display: none !important;
+      }
+      .track-title {
+        font-size: 1.35rem !important;
+      }
+      .login-title {
+        font-size: 1.25rem !important;
+      }
+      .btn-tool {
+        padding: 6px 10px !important;
+        font-size: 0.75rem !important;
+      }
     }
   </style>
 </head>
